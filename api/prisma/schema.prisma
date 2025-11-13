@@ -1,0 +1,217 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id() @default(uuid())
+
+  name String
+  email String @unique
+  password String
+
+  is_verified_email Boolean @default(false)
+  avatar String?
+  phone String?
+  address String?
+
+  comments Comment[]
+  userCarts UserCart[]
+  orders Order[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  @@map("users")
+}
+
+model Comment {
+  id String @id @default(uuid())
+
+  userId String @map("user_id")
+  productId String @map("product_id")
+  comment String
+  star Float @default(0.0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt
+
+  @@map("comment")
+}
+
+model UserCart {
+  id String @id @default(uuid())
+
+  userId String @map("user_id")
+  productId String @map("product_id")
+  count Int @default(1)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt
+
+  @@map("user_cart")
+}
+
+model Order {
+  id String @id @default(uuid())
+
+  userId String @map("user_id")
+  orderNumber Int @map("order_number")
+  orderDate DateTime @map("order_date")
+  paymentMethod Int @map("payment_method")
+  statusId Int @map("status_id")
+  address String
+  totalAmount Float @map("total_amount")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderStatus OrderStatus @relation(fields: [statusId], references: [id], onDelete: Cascade)
+  paymentMethodsRel PaymentMethod @relation(fields: [paymentMethod], references: [id], onDelete: Cascade)
+
+  orderItems OrderItem[]
+
+  @@map("order")
+}
+
+model PaymentMethod {
+  id Int @id
+
+  method PaymentEnum @default(cart)
+
+  orders Order[]
+
+  @@map("payment_method")
+}
+
+model OrderStatus {
+  id Int @id
+
+  status OrderStatusEnum
+
+  orders Order[]
+
+  @@map("order_status")
+}
+
+model OrderItem {
+  id String @id @default(uuid())
+  
+  orderId String @map("order_id")
+  productId String @map("product_id")
+  productName String @map("product_name")
+  unitPrice Float @map("unit_price")
+  quantity Int
+  totalPrice Float @map("total_price")
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt
+
+  @@map("order_item")
+}
+
+model Product {
+  id String @id @default(uuid())
+
+  categoryId Int @map("category_id")
+  brandId Int @map("brand_id")
+  image String
+  isFavorite Boolean @default(false) @map("is_favorite")
+  name String
+  typeId Int @map("type_id")
+  price Float
+  star Float
+  specifications Json
+  count Int
+  isActive Boolean @default(true)
+  about String
+
+  categories Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  brands Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  instrumentTypes InstrumentType @relation(fields: [typeId], references: [id], onDelete: Cascade)
+
+  userCarts UserCart[]
+  comments Comment[]
+  orderItems OrderItem[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt
+
+  @@map("product")
+}
+
+model Category {
+  id Int @id
+
+  name CategoryEnum
+  image String
+
+  products Product[]
+
+  @@map("category")
+}
+
+model Brand {
+  id Int @id
+
+  name String
+  image String
+
+  products Product[]
+
+  @@map("brand")
+}
+
+model InstrumentType {
+  id Int @id
+
+  type String
+
+  products Product[]
+
+  @@map("instrument_type")
+}
+
+
+enum PaymentEnum {
+  cash
+  cart
+  credit
+  sbp
+
+  @@map("enum_payment")
+}
+
+enum OrderStatusEnum {
+  В_сборке
+  В_пути
+  Можно_получить
+
+  @@map("order_status_enum")
+}
+
+enum CategoryEnum {
+  Гитары
+  Гитарные_усилители
+  Гитарные_чехлы
+  Струны
+  Гитарные_аксессуары
+  Ударные
+  Клавишные
+  Звук
+  Инструменты_из_аниме
+  
+  @@map("category_enum")
+}
