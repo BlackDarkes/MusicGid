@@ -30,7 +30,7 @@ export class AuthService {
 		this.COOKIE_DOMAIN = configService.get<string>("COOKIE_DOMAIN") ?? "";
 	}
 
-	async create(dto: RegisterDto) {
+	async register(dto: RegisterDto) {
 		const { name, email, password, phone } = dto;
 		const user = await this.usersService.getUserByEmail(email);
 
