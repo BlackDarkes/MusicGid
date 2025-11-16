@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { UsersService } from "../users/users.service";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
@@ -72,7 +72,7 @@ export class AuthService {
 	}
 
 	async refresh(req: Request, res: Response) {
-		const refreshToken = req?.cookies["refresh_token"];
+		const refreshToken = req?.cookies?.["refresh_token"];
 		
 		if (!refreshToken) {
 			throw new UnauthorizedException("Недействительный токен!");
@@ -84,7 +84,7 @@ export class AuthService {
 			const user = await this.usersService.getUserById(payload.id);
 
 			if (!user) {
-				throw new UnauthorizedException("Пользователь не найден!")
+				throw new NotFoundException("Пользователь не найден!")
 			}
 
 			return this.auth(res, user.id, user.email);
@@ -114,7 +114,7 @@ export class AuthService {
 			secure: !isDev(this.configService),
 			expires,
 			domain: "",
-			sameSite: isDev(this.configService) ? "strict" : "lax",
+			sameSite: !isDev(this.configService) ? "strict" : "lax",
 		});
 	}
 

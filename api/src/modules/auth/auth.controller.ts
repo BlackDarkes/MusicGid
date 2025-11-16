@@ -5,10 +5,14 @@ import { LoginDto } from './common/dto/login.dto';
 import { Request, Response } from 'express';
 import { Auth } from './common/decorators/auth.decorator';
 import { Authorize } from './common/decorators/authorize.decorator';
+import { UsersService } from '../users/users.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UsersService,
+  ) {}
 
   @Post("register")
   @HttpCode(201)
@@ -23,13 +27,18 @@ export class AuthController {
   @Post("login")
   @HttpCode(200)
   async login(@Res({ passthrough: true }) res: Response, @Body() loginData: LoginDto) {
-    await this.authService.login(res, loginData);
+    const accessToken = await this.authService.login(res, loginData);
+    const user = await this.userService.getUserByEmail(loginData.email);
 
     return {
       message: "Вы успешно вошли в аккаунт!",
+      token: accessToken,
+      user
     }
   }
 
+  @Post("logout")
+  @HttpCode(200)
   async logout(@Res({ passthrough: true }) res: Response) {
     await this.authService.logout(res);
 
@@ -42,10 +51,10 @@ export class AuthController {
   @Post("refresh")
   @HttpCode(200)
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const accessToken = await this.authService.refresh(req, res);
+    const refreshToken = await this.authService.refresh(req, res);
 
-    return { 
-      accessToken,
+    return {
+      token: refreshToken,
     }
   }
 
