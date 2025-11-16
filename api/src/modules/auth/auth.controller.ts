@@ -27,13 +27,13 @@ export class AuthController {
   @Post("login")
   @HttpCode(200)
   async login(@Res({ passthrough: true }) res: Response, @Body() loginData: LoginDto) {
-    const accessToken = await this.authService.login(res, loginData);
-    const user = await this.userService.getUserByEmail(loginData.email);
+    const user = await this.authService.login(res, loginData);
+
+    const { password, ...otherUserData } = user!;
 
     return {
       message: "Вы успешно вошли в аккаунт!",
-      token: accessToken,
-      user
+      user: otherUserData,
     }
   }
 
@@ -51,10 +51,13 @@ export class AuthController {
   @Post("refresh")
   @HttpCode(200)
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const refreshToken = await this.authService.refresh(req, res);
+    const user = await this.authService.refresh(req, res);
+
+    const { password, ...otherUserData } = user!;
 
     return {
-      token: refreshToken,
+      message: "Токен обновлен!",
+      user: otherUserData
     }
   }
 

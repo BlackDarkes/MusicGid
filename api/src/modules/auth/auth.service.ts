@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import {
+	Injectable,
+	NotFoundException,
+	UnauthorizedException,
+} from "@nestjs/common";
 import { UsersService } from "../users/users.service";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
@@ -7,7 +11,7 @@ import { hash, compare } from "bcrypt";
 import { LoginDto } from "./common/dto/login.dto";
 import { Request, Response } from "express";
 import { isDev } from "src/utils/is-dev.utils";
-import { IPayload } from "src/types/payload.interface";
+import { IPayload } from "src/modules/auth/types/payload.interface";
 
 @Injectable()
 export class AuthService {
@@ -46,19 +50,20 @@ export class AuthService {
 		});
 	}
 
-	async login(res: Response ,dto: LoginDto) {
+	async login(res: Response, dto: LoginDto) {
 		const { email, password } = dto;
 		const user = await this.usersService.getUserByEmail(email);
 
 		if (!user || !(await compare(password, user.password))) {
 			throw new UnauthorizedException("Таких данных нет в базе данных!");
 		}
-		 
-		return this.auth(res, user.id, email);
+
+		await this.auth(res, user.id, email);
+		return user;
 	}
 
 	async logout(res: Response) {
-		return this.setCookie(res, "refresh_token", new Date(0));
+		return this.clearTokens(res);
 	}
 
 	async validate(id: string) {
@@ -73,21 +78,24 @@ export class AuthService {
 
 	async refresh(req: Request, res: Response) {
 		const refreshToken = req?.cookies?.["refresh_token"];
-		
+
 		if (!refreshToken) {
 			throw new UnauthorizedException("Недействительный токен!");
 		}
 
-		const payload: IPayload = await this.jwtService.verifyAsync(refreshToken);
-
-		if (payload) {
+		try {
+			const payload: IPayload = await this.jwtService.verifyAsync(refreshToken);
 			const user = await this.usersService.getUserById(payload.id);
 
 			if (!user) {
-				throw new NotFoundException("Пользователь не найден!")
+				throw new NotFoundException("Пользователь не найден!");
 			}
 
-			return this.auth(res, user.id, user.email);
+			await this.auth(res, user.id, user.email);
+			return user;
+		} catch {
+			this.clearTokens(res);
+			throw new UnauthorizedException("Неверный refresh token!");
 		}
 	}
 
@@ -108,8 +116,8 @@ export class AuthService {
 		};
 	};
 
-	private setCookie(res: Response, value: string, expires: Date) {
-		res.cookie("refresh_token", value, {
+	private setCookie(res: Response, name: string, value: string, expires: Date) {
+		res.cookie(name, value, {
 			httpOnly: true,
 			secure: !isDev(this.configService),
 			expires,
@@ -118,11 +126,24 @@ export class AuthService {
 		});
 	}
 
-	private auth(res: Response, id: string, email: string) {
+	private clearTokens(res: Response) {
+		const clearOption = {
+			httpOnly: true,
+			secure: !isDev(this.configService),
+			domain: "",
+		};
+
+		res.cookie("access_token", "", { ...clearOption, expires: new Date(0) });
+		res.cookie("refresh_token", "", { ...clearOption, expires: new Date(0) });
+	}
+
+	private async auth(res: Response, id: string, email: string) {
 		const { accessToken, refreshToken } = this.createTokens(id, email);
 
-		this.setCookie(res, refreshToken, new Date(Date.now() + 60 * 60 * 24 * 31));
+		const accessTokenExpires = new Date(Date.now() + 1000 * 60 * 60);
+		const refreshTokenExpires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 31);
 
-		return accessToken;
+		this.setCookie(res, "access_token", accessToken, accessTokenExpires);
+		this.setCookie(res, "refresh_token", refreshToken, refreshTokenExpires);
 	}
 }
