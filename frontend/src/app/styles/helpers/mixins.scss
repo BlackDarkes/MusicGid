@@ -1,0 +1,30 @@
+@use "./function.scss" as *;
+@use "./media.scss" as *;
+@use "../base/variables.scss" as *;
+
+
+
+@mixin fluid-text($max, $min) {
+  font-size: fluid($max, $min);
+}
+
+@mixin svg($color) {
+  & svg,
+  & svg * {
+    fill: $color;
+  }
+}
+
+@mixin svg-hover($transition, $color) {
+  & svg,
+  & svg * {
+    transition: $transition;
+  }
+
+  @include hover() {
+    & svg,
+    & svg * {
+      fill: $color;
+    }
+  }
+}
