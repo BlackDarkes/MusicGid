@@ -4,6 +4,7 @@ import { Container, Logo } from "@/shared/ui";
 import { HeaderInfo } from "../HeaderInfo/HeaderInfo";
 import { SearchLine } from "@/features/search";
 import { HeaderNav } from "../HeaderNav/HeaderNav";
+import { NAV_EL } from "../../model/constants/navElements";
 
 export const Header = () => {
   return (
@@ -14,7 +15,7 @@ export const Header = () => {
         <div>
           <Logo />
           <SearchLine />
-          <HeaderNav items={["Войти", "Избранное", "Корзина", "Тема"]} />
+          <HeaderNav items={NAV_EL} />
         </div>
       </Container>
     </header>
