@@ -1,35 +1,21 @@
 "use client";
 
-import Link from "next/link";
 import { INavItem } from "../../model/types/nav.interface";
-import { Button } from "@/shared/ui";
-import { memo } from "react";
+import { HeaderNavItem } from "../HeaderNavItem/HeaderNavItem";
 
 interface IHeaderNavProps {
   items: INavItem[];
 }
 
-const HeaderNav = memo(({ items }: IHeaderNavProps) => {
+const HeaderNav = ({ items }: IHeaderNavProps) => {
   return (
     <ul>
-      {items.map(({ id, icon: Icon, name, link }) => (
-        <li key={id}>
-          { link ? (
-            <Link href={link ? link : ""}>
-              <Icon />
-              {name}
-            </Link>
-          ) : (
-            <Button>
-              <Icon />
-              {name}
-            </Button>
-          ) }
-        </li>
+      {items.map((item) => (
+        <HeaderNavItem item={item} key={item.id} />
       ))}
     </ul>
   );
-});
+};
 
 HeaderNav.displayName = "HeaderNav";
 export { HeaderNav };

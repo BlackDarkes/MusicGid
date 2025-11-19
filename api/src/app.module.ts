@@ -8,12 +8,14 @@ import { UserCartModule } from "./modules/user-cart/user-cart.module";
 import { OrderModule } from "./modules/order/order.module";
 import { OrderItemModule } from './modules/order-item/order-item.module';
 import { ProductModule } from './modules/product/product.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
 		}),
+		RedisModule,
 		PrismaModule,
 		UsersModule,
 		AuthModule,
