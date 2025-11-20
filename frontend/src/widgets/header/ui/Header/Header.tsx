@@ -9,9 +9,8 @@ import { NAV_EL } from "../../model/constants/navElements";
 export const Header = () => {
   return (
     <header>
+      <HeaderInfo />
       <Container>
-        <HeaderInfo />
-
         <div>
           <Logo />
           <SearchLine />

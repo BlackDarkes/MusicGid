@@ -1,0 +1,11 @@
+.info {
+  padding-block: rem(7);
+  background-color: $mainOrange;
+
+  &Container {
+    @include flex-between();
+    color: $mainWhite;
+    font-family: $fontLato;
+    font-weight: 700;
+  }
+}

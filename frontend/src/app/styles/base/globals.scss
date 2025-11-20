@@ -1,0 +1,34 @@
+button, label {
+  cursor: pointer;
+}
+
+button {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  color: inherit;
+  border: 0;
+  outline: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $fontLato;
+}
+
+p {
+  font-family: $fontInter;
+}
