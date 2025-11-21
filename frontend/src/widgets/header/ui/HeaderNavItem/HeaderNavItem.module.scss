@@ -1,0 +1,9 @@
+.item {
+  &Link {
+    @include flex-row-gap(0);
+    align-items: center;
+    font-family: $fontInter;
+    font-size: rem(12);
+    user-select: none;
+  }
+}

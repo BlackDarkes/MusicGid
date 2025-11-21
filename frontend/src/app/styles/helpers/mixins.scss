@@ -33,3 +33,19 @@
   display: flex;
   justify-content: space-between;
 }
+
+@mixin flex-between-col-gap($pixelsStart, $motion, $pixelsEnd) {
+  @include flex-between();
+  column-gap: clamp(rem($pixelsStart), $motion, rem($pixelsEnd));
+}
+
+@mixin flex-col-gap($pixelsStart, $motion, $pixelsEnd) {
+  display: flex;
+  column-gap: clamp(rem($pixelsStart), $motion, rem($pixelsEnd));
+}
+
+@mixin flex-row-gap($pixels) {
+  display: flex;
+  flex-direction: column;
+  row-gap: $pixels;
+}

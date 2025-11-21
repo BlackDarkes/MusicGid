@@ -8,7 +8,7 @@ interface IButtonProps {
   
 export const Button = ({ children, className }: IButtonProps) => {
   return (
-    <button className={`${className} ${styles.button}`}>
+    <button className={`${className ? className : ""} ${styles.button}`}>
       { children }
     </button>
   );

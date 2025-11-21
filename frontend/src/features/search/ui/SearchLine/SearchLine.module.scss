@@ -1,0 +1,16 @@
+.search {
+  @include flex-between-col-gap(15, 1vw, 15);
+  padding: rem(8) rem(10);
+  color: $mainGray;
+  width: 100%;
+  border: rem(1) solid $acceptGray;
+  border-radius: rem(8);
+
+  &Input {
+    width: 100%;
+
+    &::placeholder {
+      color: $mainGray;
+    }
+  }
+}

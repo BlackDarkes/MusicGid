@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { INavItem } from "../../model/types/nav.interface";
-import { Button } from "@/shared/ui";
 import { memo } from "react";
+import Link from "next/link";
+import type { INavItem } from "@/widgets/header/model/types/nav.interface";
+import { Button } from "@/shared/ui";
+import styles from "./HeaderNavItem.module.scss";
 
 interface IHeaderNavItemProps {
   item: INavItem;
@@ -12,14 +13,14 @@ interface IHeaderNavItemProps {
 const HeaderNavItem = memo(
   ({ item: { icon: Icon, name, link } }: IHeaderNavItemProps) => {
     return (
-      <li>
+      <li className={styles.item}>
         {link ? (
-          <Link href={link ? link : ""}>
+          <Link href={link ? link : ""} className={styles.itemLink}>
             <Icon />
             {name}
           </Link>
         ) : (
-          <Button>
+          <Button className={styles.itemLink}>
             <Icon />
             {name}
           </Button>

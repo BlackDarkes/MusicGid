@@ -2,6 +2,7 @@
 
 import { INavItem } from "../../model/types/nav.interface";
 import { HeaderNavItem } from "../HeaderNavItem/HeaderNavItem";
+import styles from "./HeaderNav.module.scss";
 
 interface IHeaderNavProps {
   items: INavItem[];
@@ -9,7 +10,7 @@ interface IHeaderNavProps {
 
 const HeaderNav = ({ items }: IHeaderNavProps) => {
   return (
-    <ul>
+    <ul className={styles.list}>
       {items.map((item) => (
         <HeaderNavItem item={item} key={item.id} />
       ))}

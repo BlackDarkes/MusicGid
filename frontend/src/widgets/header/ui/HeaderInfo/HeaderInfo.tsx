@@ -8,7 +8,7 @@ export const HeaderInfo = () => {
   return (
     <div className={styles.info}>
       <Container className={styles.infoContainer}>
-        <Link href={"https://2gis.ru/ekaterinburg/geo/1267273050358323"}>
+        <Link href={"https://2gis.ru/ekaterinburg/geo/1267273050358323"} target="_blank">
           Г. Екатеринбург ул. Академика Шварца д. 14
         </Link>
 

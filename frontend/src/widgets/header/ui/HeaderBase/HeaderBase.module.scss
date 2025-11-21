@@ -1,0 +1,10 @@
+.headerBase {
+  @include flex-between-col-gap(60, 7vw, 103);
+  align-items: center;
+  padding-block: rem(28);
+
+  &BlockLogo {
+    @include flex-col-gap(30, 4vw, 50);
+    width: 100%;
+  }
+}
