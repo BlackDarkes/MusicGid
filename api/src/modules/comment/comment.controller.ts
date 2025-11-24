@@ -1,27 +1,63 @@
-import { Controller, Get, HttpCode, Param } from '@nestjs/common';
-import { CommentService } from './comment.service';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from "@nestjs/common";
+import { CommentService } from "./comment.service";
+import { CommentDto } from "./common/dto/comment.dto";
+import { CommentUpdateDto } from "./common/dto/commentUpdate.dto";
 
-@Controller('comment')
+@Controller("comment")
 export class CommentController {
-  constructor(private readonly commentService: CommentService) {}
+	constructor(private readonly commentService: CommentService) {}
 
-  @Get("all")
-  @HttpCode(200)
-  async getAllComments() {
-    const allComments = await this.commentService.getAllComments();
+	@Get("all")
+	@HttpCode(200)
+	async getAllComments() {
+		const allComments = await this.commentService.getAllComments();
+
+		return {
+			comments: allComments,
+		};
+	}
+
+	@Get(":id")
+	@HttpCode(200)
+	async getAllCommentsByProduct(@Param("id") productId: string) {
+		const allPostsByProduct =
+			await this.commentService.getAllByProduct(productId);
+
+		return {
+			comments: allPostsByProduct,
+		};
+	}
+
+	@Post("")
+	@HttpCode(201)
+	async create(@Body() commentData: CommentDto) {
+		const newComment = await this.commentService.create(commentData);
+
+		return {
+			message: "Новый комментарий создан!",
+			comment: newComment,
+		};
+	}
+
+  @Patch("")
+  @HttpCode(201)
+  async update(@Body() commentData: CommentUpdateDto) {
+    const updateComment = await this.commentService.update(commentData);
 
     return {
-      comments: allComments
+      message: "Комент обновлен",
+      comment: updateComment,
     }
   }
 
-  @Get(":id")
-  @HttpCode(200)
-  async getAllCommentsByProduct(@Param("id") productId: string) {
-    const allPostsByProduct = await this.commentService.getAllByProduct(productId);
+  @Delete(":id")
+  @HttpCode(201)
+  async delete(@Param("id") commentId: string, @Body() userId: string) {
+    const deleteComment = await this.commentService.delete(commentId, userId);
 
     return {
-      comments: allPostsByProduct,
+      message: "Коментарий удален!",
+      comment: deleteComment,
     }
   }
 }

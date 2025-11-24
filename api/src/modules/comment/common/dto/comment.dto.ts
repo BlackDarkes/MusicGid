@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsInt, IsNotEmpty, IsString, Max, Min, MinLength } from "class-validator";
 
 export class CommentDto {
   @IsString()
@@ -16,5 +16,7 @@ export class CommentDto {
 
   @IsInt()
   @IsNotEmpty()
+  @Min(0)
+  @Max(5)
   star: number;
 }
