@@ -1,5 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException,
+} from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
+import { CreateOrderDto } from "./common/dto/order.dto";
 
 @Injectable()
 export class OrderService {
@@ -106,14 +111,28 @@ export class OrderService {
 			},
 		});
 
-    if (!order) {
-      throw new NotFoundException("Заказ не найден!");
-    }
+		if (!order) {
+			throw new NotFoundException("Заказ не найден!");
+		}
 
-    return order;
+		return order;
 	}
 
-  async create() {
-    
-  }
+	async create(dto: CreateOrderDto) {
+		const user = await this.prismaService.user.findUnique({
+			where: { id: dto.userId },
+		});
+
+		if (!user) {
+			throw new BadRequestException("Пользователь не найден!");
+		}
+
+		const paymentMethod = await this.prismaService.paymentMethod.findUnique({
+			where: { id: dto.paymentMethod },
+		});
+
+		if (!paymentMethod) {
+			throw new BadRequestException("Метод оплаты не найден!");
+		}
+	}
 }
