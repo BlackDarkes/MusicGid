@@ -20,4 +20,15 @@ class CreateOrderDto {
   orderItems: OrderItemDto[]
 }
 
-export { CreateOrderDto };
+class UpdateOrderStatusDto {
+  @IsNumber()
+  statusId: number;
+}
+
+class UpdateOrderAddressDto {
+  @IsString()
+  @IsNotEmpty()
+  address: string;
+}
+
+export { CreateOrderDto, UpdateOrderStatusDto, UpdateOrderAddressDto };
