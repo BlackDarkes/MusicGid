@@ -1,11 +1,11 @@
-import { IsDecimal, IsInt, IsJSON, IsNotEmpty, IsString, MinLength } from "class-validator";
-import { ISpecifications } from "../../types/specifications.interface";
+import { IsDecimal, IsInt, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { CategoryType } from "../../types";
 
 export class CreateDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(4)
-  category: string;
+  category: CategoryType;
 
   @IsString()
   @IsNotEmpty()
@@ -30,13 +30,8 @@ export class CreateDto {
   @IsNotEmpty()
   price: number;
 
-  @IsDecimal()
   @IsNotEmpty()
-  star: number;
-
-  @IsJSON()
-  @IsNotEmpty()
-  specifications: ISpecifications[];
+  specifications: any;
 
   @IsInt()
   @IsNotEmpty()
