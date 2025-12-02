@@ -1,7 +1,16 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Get,
+	HttpCode,
+	Param,
+	Patch,
+	Post,
+} from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { FilterDto } from "./common/dto/filter.dto";
 import { CreateDto } from "./common/dto/create.dto";
+import { CategoryType } from "./types";
 
 @Controller("product")
 export class ProductController {
@@ -34,6 +43,59 @@ export class ProductController {
 
 		return {
 			message: "Продукт создан!",
+		};
+	}
+
+	@Patch(":id")
+	@HttpCode(201)
+	async update(@Param("id") productId: string, @Body() updateData) {
+		await this.productService.update(productId, updateData);
+
+		return {
+			productId,
+			message: "Товар обновлен!",
+		};
+	}
+
+	/* Дописать работу с файлами! */
+	// @Post("brand")
+	// @HttpCode(201)
+	// async createBrand(@Body() brandName: string) {
+	// 	await this.productService.createBrand(brandName);
+
+	// 	return {
+	// 		message: `Бренд "${brandName}" создан!`,
+	// 	}
+	// }
+
+	@Post("createType")
+	@HttpCode(201)
+	async createType(@Body() typeName: string) {
+		await this.productService.createInstrumentType(typeName);
+
+		return {
+			message: `Тип "${typeName}" создан!`,
+		};
+	}
+
+	@Get("/category")
+	@HttpCode(200)
+	async getByCategory(@Body() categoryName: CategoryType) {
+		const products =
+			await this.productService.getProductByCategory(categoryName);
+
+		return {
+			products,
+		};
+	}
+
+	@Get("/brand")
+	@HttpCode(200)
+	async getByBrand(@Body() brandName: string) {
+		const products = await this.productService.getProductByBrand(brandName);
+
+		return {
+			products,
 		};
 	}
 }
