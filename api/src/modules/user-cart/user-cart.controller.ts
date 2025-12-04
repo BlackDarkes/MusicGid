@@ -38,7 +38,7 @@ export class UserCartController {
 	@Patch(":cartId")
 	@HttpCode(201)
 	async update(@Param("cartId") cartId: string, @Body() count: number) {
-		const product = await this.userCartService.updateCartItem(cartId, count);
+		await this.userCartService.updateCartItem(cartId, count);
 
 		return {
 			message: "Количество изменилось!",
