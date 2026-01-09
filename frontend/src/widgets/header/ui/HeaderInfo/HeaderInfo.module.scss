@@ -4,8 +4,13 @@
 
   &Container {
     @include flex-between();
+    column-gap: rem(20);
     color: $mainWhite;
     font-family: $fontLato;
     font-weight: 600;
+  }
+
+  &Link {
+    @include fluid-text(16, 12);
   }
 }

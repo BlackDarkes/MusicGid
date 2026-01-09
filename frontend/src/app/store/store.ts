@@ -5,7 +5,7 @@ import { devtools } from "zustand/middleware";
 
 type TypeStore = IBurgerSlice;
 
-export const store = create<TypeStore>()(
+export const useStore = create<TypeStore>()(
   devtools(
     (set, get, api) => ({
       ...burgerSlice(set, get, api)

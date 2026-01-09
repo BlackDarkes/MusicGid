@@ -3,6 +3,7 @@ import { INavItem } from "../../model/types/nav.interface";
 import { SearchLine } from "@/features/search";
 import { HeaderNav } from "../HeaderNav/HeaderNav";
 import styles from "./HeaderBase.module.scss";
+import { BurgerButton } from "@/features/burger";
 
 interface IHeaderBaseProps {
   navEl: INavItem[];
@@ -16,6 +17,7 @@ export const HeaderBase = ({ navEl }: IHeaderBaseProps) => {
         <SearchLine />
       </div>
       <HeaderNav items={navEl} />
+      <BurgerButton />
     </Container>
   );
 };

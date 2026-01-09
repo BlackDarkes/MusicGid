@@ -1,3 +1,7 @@
 .list {
-  @include flex-col-gap(20, 7vw, 45)
+  @include flex-col-gap(20, 7vw, 45);
+
+  @include tablet() {
+    display: none;
+  }
 }

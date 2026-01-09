@@ -42,3 +42,8 @@ input {
   outline: 0;
   font-family: $fontLato;
 }
+
+body {
+  color: $mainBlack;
+  -webkit-tap-highlight-color: transparent;
+}
