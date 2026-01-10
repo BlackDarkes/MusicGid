@@ -1,0 +1,7 @@
+.button {
+  display: none;
+
+  @include mobile() {
+    display: flex;
+  }
+}

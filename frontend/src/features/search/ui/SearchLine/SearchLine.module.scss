@@ -17,4 +17,8 @@
   @include tablet() {
     width: min(100%, 600px);
   }
+
+  @include mobile() {
+    display: none;
+  }
 }

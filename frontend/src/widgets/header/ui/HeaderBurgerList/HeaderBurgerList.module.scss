@@ -1,0 +1,28 @@
+.burgerBlock {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(100%, rem(400));
+  padding: rem(20);
+  background-color: $secondaryOrange;
+  border-radius: 0 0 0 rem(20);
+  box-shadow: $contentShadow;
+  transform: translateX(100%);
+  transition: $transition;
+
+  &.active {
+    transform: translateX(0);
+    transition: $transition;
+  }
+
+  &List {
+    @include flex-row-gap(rem(20));
+    @include fluid-text(24, 16);
+    font-weight: 500;
+  }
+
+  &Link {
+    @include flex-between-col-gap(20, 1vw, 20);
+    width: fit-content;
+  }
+}

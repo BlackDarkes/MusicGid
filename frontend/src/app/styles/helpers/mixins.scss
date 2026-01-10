@@ -11,7 +11,7 @@
 @mixin svg($color) {
   & svg,
   & svg * {
-    fill: $color;
+    stroke: $color;
   }
 }
 
@@ -24,7 +24,7 @@
   @include hover() {
     & svg,
     & svg * {
-      fill: $color;
+      stroke: $color;
     }
   }
 }

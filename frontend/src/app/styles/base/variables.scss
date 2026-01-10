@@ -7,6 +7,8 @@ $mainGray: #999999;
 $acceptPurple: #E9EAFF;
 $acceptGray: #ADAAAA;
 
+$secondaryOrange: #FFA500;
+
 $backgroundGray: #F5F5F5;
 
 
@@ -20,6 +22,10 @@ $modeBackgroundGray: #2D2D2D;
 $fontLato: var(--font-lato);
 $fontEbGaramond: var(--font-eb_garamond);
 $fontInter: var(--font-inter);
+
+
+/* Box-shadow */
+$contentShadow: 5px 5px 7px 0 rgba(0, 0, 0, 0.16);
 
 
 /* Transition */
