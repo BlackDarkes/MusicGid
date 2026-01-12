@@ -1,15 +1,15 @@
 import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
+import { AppModule } from "./app.module.js";
 import { ConfigService } from "@nestjs/config";
-import * as CookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 import { ValidationPipe } from "@nestjs/common";
-import { isDev } from "./utils/is-dev.utils";
+import { isDev } from "./utils/is-dev.utils.js";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 	const configService = app.get(ConfigService);
 
-	app.use(CookieParser());
+	app.use(cookieParser());
 	app.useGlobalPipes(
 		new ValidationPipe({
 			whitelist: true,

@@ -3,15 +3,15 @@ import {
 	NotFoundException,
 	UnauthorizedException,
 } from "@nestjs/common";
-import { UsersService } from "../users/users.service";
+import { UsersService } from "../users/users.service.js";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
-import { RegisterDto } from "./common/dto/register.dto";
+import { RegisterDto } from "./common/dto/register.dto.js";
 import { hash, compare } from "bcrypt";
-import { LoginDto } from "./common/dto/login.dto";
+import { LoginDto } from "./common/dto/login.dto.js";
 import { Request, Response } from "express";
-import { isDev } from "src/utils/is-dev.utils";
-import { IPayload } from "src/modules/auth/types/payload.interface";
+import { isDev } from "../../utils/is-dev.utils.js";
+import { IPayload } from "../../modules/auth/types/payload.interface.js";
 
 @Injectable()
 export class AuthService {

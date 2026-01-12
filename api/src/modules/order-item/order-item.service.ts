@@ -3,8 +3,9 @@ import {
 	Injectable,
 	NotFoundException,
 } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
-import { OrderItemDto } from "./common/orderItem.dto";
+import { PrismaService } from "../prisma/prisma.service.js";
+import { OrderItemDto } from "./common/orderItem.dto.js";
+import { OrderStatusEnum } from "@prisma/client";
 
 @Injectable()
 export class OrderItemService {
@@ -159,7 +160,7 @@ export class OrderItemService {
 			throw new NotFoundException("Заказ не найден!");
 		}
 
-		if (order.orderStatus.status !== "В_сборке") {
+		if (order.orderStatus.status !== OrderStatusEnum.IN_ASSEMBLY) {
 			throw new BadRequestException(
 				"Нельзя добавлять товары в заказ с текущим статусом!",
 			);
@@ -271,7 +272,7 @@ export class OrderItemService {
 			throw new BadRequestException("Элемент заказа не найден!");
 		}
 
-		if (orderItem.order.orderStatus.status !== "В_сборке") {
+		if (orderItem.order.orderStatus.status !== OrderStatusEnum.IN_ASSEMBLY) {
 			throw new BadRequestException(
 				"Нельзя изменять заказ с текущим статусом!",
 			);
@@ -350,7 +351,7 @@ export class OrderItemService {
 			throw new BadRequestException("Элемент заказа не найден!");
 		}
 
-		if (orderItem.order.orderStatus.status !== "В_сборке") {
+		if (orderItem.order.orderStatus.status !== OrderStatusEnum.IN_ASSEMBLY) {
 			throw new BadRequestException(
 				"Нельзя удалять товары из заказа с текущим статусом!",
 			);

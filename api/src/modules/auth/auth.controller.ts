@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Body, Controller, Get, HttpCode, Post, Req, Res } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { RegisterDto } from './common/dto/register.dto';
-import { LoginDto } from './common/dto/login.dto';
+import { AuthService } from './auth.service.js';
+import { RegisterDto } from './common/dto/register.dto.js';
+import { LoginDto } from './common/dto/login.dto.js';
 import { Request, Response } from 'express';
-import { Auth } from './common/decorators/auth.decorator';
-import { Authorize } from './common/decorators/authorize.decorator';
-import { UsersService } from '../users/users.service';
+import { Auth } from './common/decorators/auth.decorator.js';
+import { Authorize } from './common/decorators/authorize.decorator.js';
+import { UsersService } from '../users/users.service.js';
 
 @Controller('auth')
 export class AuthController {
@@ -38,6 +38,7 @@ export class AuthController {
     }
   }
 
+  @Auth()
   @Post("logout")
   @HttpCode(200)
   async logout(@Res({ passthrough: true }) res: Response) {

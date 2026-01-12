@@ -3,9 +3,9 @@ import {
 	Injectable,
 	NotFoundException,
 } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
-import { UserCartDto } from "./common/dto/userCart.dto";
-import { IIssues } from "./types/issues.interface";
+import { PrismaService } from "../prisma/prisma.service.js";
+import { UserCartDto } from "./common/dto/userCart.dto.js";
+import { IIssues } from "./types/issues.interface.js";
 
 @Injectable()
 export class UserCartService {

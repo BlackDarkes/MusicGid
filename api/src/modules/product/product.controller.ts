@@ -7,10 +7,10 @@ import {
 	Patch,
 	Post,
 } from "@nestjs/common";
-import { ProductService } from "./product.service";
-import { FilterDto } from "./common/dto/filter.dto";
-import { CreateDto } from "./common/dto/create.dto";
-import { CategoryType } from "./types";
+import { ProductService } from "./product.service.js";
+import { FilterDto } from "./common/dto/filter.dto.js";
+import { CreateDto } from "./common/dto/create.dto.js";
+import { CategoryType } from "./types/index.js";
 
 @Controller("product")
 export class ProductController {

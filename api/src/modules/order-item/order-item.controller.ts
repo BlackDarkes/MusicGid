@@ -8,8 +8,8 @@ import {
 	Patch,
 	Post,
 } from "@nestjs/common";
-import { OrderItemService } from "./order-item.service";
-import { OrderItemDto } from "./common/orderItem.dto";
+import { OrderItemService } from "./order-item.service.js";
+import { OrderItemDto } from "./common/orderItem.dto.js";
 
 @Controller("order-item")
 export class OrderItemController {

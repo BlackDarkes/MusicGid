@@ -1,7 +1,16 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from "@nestjs/common";
-import { CommentService } from "./comment.service";
-import { CommentDto } from "./common/dto/comment.dto";
-import { CommentUpdateDto } from "./common/dto/commentUpdate.dto";
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	HttpCode,
+	Param,
+	Patch,
+	Post,
+} from "@nestjs/common";
+import { CommentService } from "./comment.service.js";
+import { CommentDto } from "./common/dto/comment.dto.js";
+import { CommentUpdateDto } from "./common/dto/commentUpdate.dto.js";
 
 @Controller("comment")
 export class CommentController {
@@ -39,25 +48,25 @@ export class CommentController {
 		};
 	}
 
-  @Patch("")
-  @HttpCode(201)
-  async update(@Body() commentData: CommentUpdateDto) {
-    const updateComment = await this.commentService.update(commentData);
+	@Patch("")
+	@HttpCode(201)
+	async update(@Body() commentData: CommentUpdateDto) {
+		const updateComment = await this.commentService.update(commentData);
 
-    return {
-      message: "Комент обновлен",
-      comment: updateComment,
-    }
-  }
+		return {
+			message: "Комент обновлен",
+			comment: updateComment,
+		};
+	}
 
-  @Delete(":id")
-  @HttpCode(201)
-  async delete(@Param("id") commentId: string, @Body() userId: string) {
-    const deleteComment = await this.commentService.delete(commentId, userId);
+	@Delete(":id")
+	@HttpCode(201)
+	async delete(@Param("id") commentId: string, @Body() userId: string) {
+		const deleteComment = await this.commentService.delete(commentId, userId);
 
-    return {
-      message: "Коментарий удален!",
-      comment: deleteComment,
-    }
-  }
+		return {
+			message: "Коментарий удален!",
+			comment: deleteComment,
+		};
+	}
 }

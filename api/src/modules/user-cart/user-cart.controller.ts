@@ -8,8 +8,8 @@ import {
 	Patch,
 	Post,
 } from "@nestjs/common";
-import { UserCartService } from "./user-cart.service";
-import { UserCartDto } from "./common/dto/userCart.dto";
+import { UserCartService } from "./user-cart.service.js";
+import { UserCartDto } from "./common/dto/userCart.dto.js";
 
 @Controller("user-cart")
 export class UserCartController {

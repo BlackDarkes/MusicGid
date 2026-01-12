@@ -3,10 +3,11 @@ import {
 	Injectable,
 	NotFoundException,
 } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
-import { FilterDto } from "./common/dto/filter.dto";
-import { CreateDto } from "./common/dto/create.dto";
-import { CategoryType } from "./types";
+import { PrismaService } from "../prisma/prisma.service.js";
+import { FilterDto } from "./common/dto/filter.dto.js";
+import { CreateDto } from "./common/dto/create.dto.js";
+import { CategoryType } from "./types/index.js";
+import { CategoryEnum } from "@prisma/client";
 
 @Injectable()
 export class ProductService {
@@ -115,7 +116,7 @@ export class ProductService {
 	async create(dto: CreateDto) {
 		const [category, brand, instrumentType] = await Promise.all([
 			this.prismaService.category.findFirst({
-				where: { name: dto.category },
+				where: { name: dto.category as CategoryEnum },
 			}),
 			this.prismaService.brand.findFirst({
 				where: {
@@ -225,7 +226,7 @@ export class ProductService {
 			const [category, brand, instrumentType] = await Promise.all([
 				dto.category
 					? this.prismaService.category.findFirst({
-							where: { name: dto.category },
+							where: { name: dto.category as CategoryEnum },
 						})
 					: Promise.resolve(null),
 				dto.brand
@@ -337,7 +338,7 @@ export class ProductService {
 	async getProductByCategory(categoryName: CategoryType) {
 		const category = await this.prismaService.category.findFirst({
 			where: {
-				name: categoryName,
+				name: categoryName as CategoryEnum,
 			},
 		});
 
@@ -387,7 +388,7 @@ export class ProductService {
 			},
 			orderBy: {
 				createdAt: "desc",
-			}
+			},
 		});
 	}
 }

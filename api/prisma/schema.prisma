@@ -195,23 +195,21 @@ enum PaymentEnum {
 }
 
 enum OrderStatusEnum {
-  В_сборке
-  В_пути
-  Можно_получить
-
+  IN_ASSEMBLY    @map("В_сборке")
+  IN_TRANSIT     @map("В_пути")
+  READY_TO_PICK  @map("Можно_получить")
   @@map("order_status_enum")
 }
 
 enum CategoryEnum {
-  Гитары
-  Гитарные_усилители
-  Гитарные_чехлы
-  Струны
-  Гитарные_аксессуары
-  Ударные
-  Клавишные
-  Звук
-  Инструменты_из_аниме
-  
+  GUITARS     @map("Гитары")
+  AMPS        @map("Гитарные_усилители")
+  CASES       @map("Гитарные_чехлы")
+  STRINGS     @map("Струны")
+  ACCESSORIES @map("Гитарные_аксессуары")
+  DRUMS       @map("Ударные")
+  KEYBOARDS   @map("Клавишные")
+  SOUND       @map("Звук")
+  ANIME       @map("Инструменты_из_аниме")
   @@map("category_enum")
 }
