@@ -10,4 +10,22 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    port: 8080,
+    open: true,
+    hmr: true,
+    cors: true,
+  },
+  preview: { port: 8080 },
+  resolve: {
+    alias: {
+      "@/app/": "./src/app/",
+      "@/pages/": "./src/pages/",
+      "@/widgets/": "./src/widgets/",
+      "@/features/": "./src/features/",
+      "@/entities/": "./src/entities/",
+      "@/shared/": "./src/shared/",
+      "@/libs/": "./src/libs/",
+    }
+  }
 })
