@@ -6,13 +6,12 @@ import { LoginDto } from './common/dto/login.dto.js';
 import { Request, Response } from 'express';
 import { Auth } from './common/decorators/auth.decorator.js';
 import { Authorize } from './common/decorators/authorize.decorator.js';
-import { UsersService } from '../users/users.service.js';
+import { User } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UsersService,
   ) {}
 
   @Post("register")
@@ -66,7 +65,9 @@ export class AuthController {
   @Auth()
   @Get("@me")
   @HttpCode(200)
-  async me(@Authorize() user) {
-    return user;
+  async me(@Authorize() user: User) {
+    const { password: _, ...otherUserData } = user!;
+
+    return otherUserData;
   }
 }

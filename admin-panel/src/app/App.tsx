@@ -1,12 +1,12 @@
-import { Badge } from "@/shared/ui"
+import { QueryRouter } from "./routers/QueryRouter"
+import { RouterProvider } from "react-router"
+import { AppRouter } from "./routers/AppRouter"
 
 function App() {
   return (
-    <>
-      <Badge className="">Тестовый бейджик</Badge>
-
-      <p className="text-red-800">Example</p>
-    </>
+    <QueryRouter>
+      <RouterProvider router={AppRouter} />
+    </QueryRouter>
   )
 }
 
