@@ -12,6 +12,7 @@ import { LoginDto } from "./common/dto/login.dto.js";
 import { Request, Response } from "express";
 import { isDev } from "../../utils/is-dev.utils.js";
 import { IPayload } from "../../modules/auth/types/payload.interface.js";
+import { TypeUserRole } from "./types/userRole.type.js";
 
 @Injectable()
 export class AuthService {
@@ -58,9 +59,22 @@ export class AuthService {
 			throw new UnauthorizedException("Таких данных нет в базе данных!");
 		}
 
-		await this.auth(res, user.id, email);
+		await this.auth(res, user.id, email, "USER");
 		return user;
 	}
+
+	// async loginAdmin(res: Response, dto: LoginDto) {
+	// 	const { email, password } = dto;
+	// 	const admin = await this.usersService.getUserByEmail(email);
+	// 	const isAdmin = admin?.role;
+
+	// 	if (!admin || !isAdmin || !(await compare(password, admin.password))) {
+	// 		throw new UnauthorizedException("Таких данных нет в базе данных!");
+	// 	}
+
+	// 	await this.auth(res, admin.id, email);
+	// 	return admin;
+	// }
 
 	async logout(res: Response) {
 		return this.clearTokens(res);
@@ -91,7 +105,7 @@ export class AuthService {
 				throw new NotFoundException("Пользователь не найден!");
 			}
 
-			await this.auth(res, user.id, user.email);
+			await this.auth(res, user.id, user.email, user.role);
 			return user;
 		} catch {
 			this.clearTokens(res);
@@ -99,8 +113,8 @@ export class AuthService {
 		}
 	}
 
-	private createTokens = (id: string, email: string) => {
-		const payload: IPayload = { id, email };
+	private createTokens = (id: string, email: string, role: TypeUserRole) => {
+		const payload: IPayload = { id, email, role };
 
 		const accessToken = this.jwtService.sign(payload, {
 			expiresIn: this.JWT_ACCESS_TOKEN_TTL,
@@ -137,8 +151,13 @@ export class AuthService {
 		res.cookie("refresh_token", "", { ...clearOption, expires: new Date(0) });
 	}
 
-	private async auth(res: Response, id: string, email: string) {
-		const { accessToken, refreshToken } = this.createTokens(id, email);
+	private async auth(
+		res: Response,
+		id: string,
+		email: string,
+		role: TypeUserRole,
+	) {
+		const { accessToken, refreshToken } = this.createTokens(id, email, role);
 
 		const accessTokenExpires = new Date(Date.now() + 1000 * 60 * 60);
 		const refreshTokenExpires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 31);

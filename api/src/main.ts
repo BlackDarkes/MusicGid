@@ -22,7 +22,8 @@ async function bootstrap() {
 	app.enableCors({
 		origin: [
 			"http://localhost:3000",
-			`http://${configService.getOrThrow<string>("HOST")}:${configService.getOrThrow<string>("PORT")}`,
+			`http://${configService.getOrThrow<string>("HOST")}:${configService.getOrThrow<string>("PORT_CLIENT")}`,
+			`http://${configService.getOrThrow<string>("HOST")}:${configService.getOrThrow<string>("PORT_ADMIN_PANEL")}`,
 		],
 	});
 

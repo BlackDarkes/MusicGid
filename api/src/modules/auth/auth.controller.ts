@@ -1,73 +1,85 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Body, Controller, Get, HttpCode, Post, Req, Res } from '@nestjs/common';
-import { AuthService } from './auth.service.js';
-import { RegisterDto } from './common/dto/register.dto.js';
-import { LoginDto } from './common/dto/login.dto.js';
-import { Request, Response } from 'express';
-import { Auth } from './common/decorators/auth.decorator.js';
-import { Authorize } from './common/decorators/authorize.decorator.js';
-import { User } from '@prisma/client';
+import {
+	Body,
+	Controller,
+	Get,
+	HttpCode,
+	Post,
+	Req,
+	Res,
+} from "@nestjs/common";
+import { AuthService } from "./auth.service.js";
+import { RegisterDto } from "./common/dto/register.dto.js";
+import { LoginDto } from "./common/dto/login.dto.js";
+import { Request, Response } from "express";
+import { Auth } from "./common/decorators/auth.decorator.js";
+import { Authorize } from "./common/decorators/authorize.decorator.js";
+import { User } from "@prisma/client";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-  ) {}
+	constructor(private readonly authService: AuthService) {}
 
-  @Post("register")
-  @HttpCode(201)
-  async register(@Body() registerData: RegisterDto) {
-    await this.authService.register(registerData);
-    
-    return {
-      message: "Вы успешно зарегистрировались!",
-    }
-  }
+	@Post("register")
+	@HttpCode(201)
+	async register(@Body() registerData: RegisterDto) {
+		await this.authService.register(registerData);
 
-  @Post("login")
-  @HttpCode(200)
-  async login(@Res({ passthrough: true }) res: Response, @Body() loginData: LoginDto) {
-    const user = await this.authService.login(res, loginData);
+		return {
+			message: "Вы успешно зарегистрировались!",
+		};
+	}
 
-    const { password, ...otherUserData } = user!;
+	@Post("login")
+	@HttpCode(200)
+	async login(
+		@Res({ passthrough: true }) res: Response,
+		@Body() loginData: LoginDto,
+	) {
+		const user = await this.authService.login(res, loginData);
 
-    return {
-      message: "Вы успешно вошли в аккаунт!",
-      user: otherUserData,
-    }
-  }
+		const { password, ...otherUserData } = user!;
 
-  @Auth()
-  @Post("logout")
-  @HttpCode(200)
-  async logout(@Res({ passthrough: true }) res: Response) {
-    await this.authService.logout(res);
+		return {
+			message: "Вы успешно вошли в аккаунт!",
+			user: otherUserData,
+		};
+	}
 
-    return {
-      message: "Вы успешно вышли из аккаунта!",
-    }
-  }
+	@Auth()
+	@Post("logout")
+	@HttpCode(200)
+	async logout(@Res({ passthrough: true }) res: Response) {
+		await this.authService.logout(res);
 
-  @Auth()
-  @Post("refresh")
-  @HttpCode(200)
-  async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const user = await this.authService.refresh(req, res);
+		return {
+			message: "Вы успешно вышли из аккаунта!",
+		};
+	}
 
-    const { password, ...otherUserData } = user!;
+	@Auth()
+	@Post("refresh")
+	@HttpCode(200)
+	async refresh(
+		@Req() req: Request,
+		@Res({ passthrough: true }) res: Response,
+	) {
+		const user = await this.authService.refresh(req, res);
 
-    return {
-      message: "Токен обновлен!",
-      user: otherUserData
-    }
-  }
+		const { password, ...otherUserData } = user!;
 
-  @Auth()
-  @Get("@me")
-  @HttpCode(200)
-  async me(@Authorize() user: User) {
-    const { password: _, ...otherUserData } = user!;
+		return {
+			message: "Токен обновлен!",
+			user: otherUserData,
+		};
+	}
 
-    return otherUserData;
-  }
+	@Auth()
+	@Get("@me")
+	@HttpCode(200)
+	async me(@Authorize() user: User) {
+		const { password: _, ...otherUserData } = user!;
+
+		return otherUserData;
+	}
 }

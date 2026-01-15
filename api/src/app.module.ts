@@ -10,10 +10,14 @@ import { OrderItemModule } from "./modules/order-item/order-item.module.js";
 import { ProductModule } from "./modules/product/product.module.js";
 import { RedisModule } from "./redis/redis.module.js";
 import { SupportChatModule } from "./modules/support-chat/support-chat.module.js";
+import { AdminModule } from './modules/admin/admin.module.js';
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
+			envFilePath: process.env.NODE_ENV === "production" 
+				? ".env.production" 
+				: ".env",
 			isGlobal: true,
 		}),
 		RedisModule,
@@ -26,6 +30,7 @@ import { SupportChatModule } from "./modules/support-chat/support-chat.module.js
 		OrderItemModule,
 		ProductModule,
 		SupportChatModule,
+		AdminModule,
 	],
 })
 export class AppModule {}

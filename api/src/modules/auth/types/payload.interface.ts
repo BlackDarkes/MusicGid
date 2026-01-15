@@ -1,6 +1,10 @@
+import { TypeUserRole } from "./userRole.type.js";
+
+
 export interface IPayload {
-  id: string;
-  email?: string;
-  exp?: number;
-  iat?: number;
+	id: string;
+	role: TypeUserRole;
+	email?: string;
+	exp?: number;
+	iat?: number;
 }

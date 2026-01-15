@@ -15,7 +15,7 @@ model User {
   email String @unique
   password String
 
-  role Boolean @default(false)
+  role UserRole @default(USER)
 
   is_verified_email Boolean @default(false)
   avatar String?
@@ -186,6 +186,12 @@ model InstrumentType {
   @@map("instrument_type")
 }
 
+enum UserRole {
+  ADMIN
+  USER
+
+  @@map("user_role")
+}
 
 enum PaymentEnum {
   cash
