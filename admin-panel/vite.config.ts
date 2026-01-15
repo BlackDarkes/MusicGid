@@ -6,7 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
 
 interface IVitestConfigExport extends UserConfig {
-  test?: InlineConfig
+  test?: InlineConfig;
 }
 
 // https://vite.dev/config/
@@ -40,6 +40,11 @@ export default defineConfig(({ mode }): IVitestConfigExport => {
         "@/shared": resolve(__dirname, "./src/shared/"),
         "@/libs": resolve(__dirname, "./src/libs/"),
       },
+    },
+    test: {
+      globals: true,
+      environment: "jsdom",
+      setupFiles: "./vite.config.ts",
     },
   };
 });
