@@ -12,7 +12,7 @@ import { LoginDto } from "./common/dto/login.dto.js";
 import { Request, Response } from "express";
 import { isDev } from "../../utils/is-dev.utils.js";
 import { IPayload } from "../../modules/auth/types/payload.interface.js";
-import { TypeUserRole } from "./types/userRole.type.js";
+import { TypeUserRole } from "../../types/userRole.type.js";
 
 @Injectable()
 export class AuthService {
@@ -151,12 +151,7 @@ export class AuthService {
 		res.cookie("refresh_token", "", { ...clearOption, expires: new Date(0) });
 	}
 
-	async auth(
-		res: Response,
-		id: string,
-		email: string,
-		role: TypeUserRole,
-	) {
+	async auth(res: Response, id: string, email: string, role: TypeUserRole) {
 		const { accessToken, refreshToken } = this.createTokens(id, email, role);
 
 		const accessTokenExpires = new Date(Date.now() + 1000 * 60 * 60);

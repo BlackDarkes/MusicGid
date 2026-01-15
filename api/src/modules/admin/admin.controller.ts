@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Body, Controller, HttpCode, Post, Res } from "@nestjs/common";
+import { Body, Controller, HttpCode, Post, Req, Res } from "@nestjs/common";
 import { AdminService } from "./admin.service.js";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { LoginDto } from "../auth/common/dto/login.dto.js";
+import { AuthService } from "../auth/auth.service.js";
+import { Auth } from "../auth/common/decorators/auth.decorator.js";
 
 @Controller("admin")
 export class AdminController {
-	constructor(private readonly adminService: AdminService) {}
+	constructor(
+    private readonly adminService: AdminService,
+    private readonly authService: AuthService,
+  ) {}
 
 	@Post("login")
 	@HttpCode(201)
@@ -21,6 +26,31 @@ export class AdminController {
     return {
       message: "Вы успешно авторизовались!",
       admin: orderAdminData,
+    }
+  }
+
+  @Auth()
+  @Post("refresh")
+  @HttpCode(200)
+  async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    const admin = await this.authService.refresh(req, res);
+
+    const { password, ...orderAdminData } = admin;
+
+    return {
+      message: "Токен обновлен!",
+      admin: orderAdminData,
+    } 
+  }
+
+  @Auth()
+  @Post("logout")
+  @HttpCode(200)
+  async logout(@Res({ passthrough: true }) res: Response) {
+    await this.authService.logout(res);
+
+    return {
+      message: "Вы успешно вышли из аккаунта!"
     }
   }
 }
