@@ -151,7 +151,7 @@ export class AuthService {
 		res.cookie("refresh_token", "", { ...clearOption, expires: new Date(0) });
 	}
 
-	private async auth(
+	async auth(
 		res: Response,
 		id: string,
 		email: string,

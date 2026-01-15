@@ -7,7 +7,6 @@ import { PassportModule } from "@nestjs/passport";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { JwtConfig } from "../../config/jwt.config.js";
 import { JwtStrategy } from "./common/strategy/jwt.strategy.js";
-import { LoginDto } from "./common/dto/login.dto.js";
 import { JwtGuard } from "./common/guard/jwt.guard.js";
 
 @Module({
@@ -19,9 +18,10 @@ import { JwtGuard } from "./common/guard/jwt.guard.js";
 			inject: [ConfigService],
 		}),
 		UsersModule,
+		ConfigModule
 	],
 	controllers: [AuthController],
-	providers: [AuthService, JwtStrategy],
-	exports: [LoginDto, JwtStrategy, JwtGuard, AuthService]
+	providers: [AuthService, JwtStrategy, JwtGuard],
+	exports: [AuthService, JwtStrategy, JwtGuard, JwtModule, ConfigModule]
 })
 export class AuthModule {}
