@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { LoginDto } from "../auth/common/dto/login.dto.js";
 import { AuthService } from "../auth/auth.service.js";
 import { Auth } from "../auth/common/decorators/auth.decorator.js";
+import { Roles } from "../auth/common/decorators/role.decorator.js";
 
 @Controller("admin")
 export class AdminController {
@@ -30,6 +31,7 @@ export class AdminController {
   }
 
   @Auth()
+  @Roles("ADMIN")
   @Post("refresh")
   @HttpCode(200)
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
@@ -44,6 +46,7 @@ export class AdminController {
   }
 
   @Auth()
+  @Roles("ADMIN")
   @Post("logout")
   @HttpCode(200)
   async logout(@Res({ passthrough: true }) res: Response) {

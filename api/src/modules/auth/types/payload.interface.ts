@@ -1,4 +1,4 @@
-import { TypeUserRole } from "../../../types/userRole.type.js";
+import { TypeUserRole } from "./userRole.type.js";
 
 export interface IPayload {
 	id: string;

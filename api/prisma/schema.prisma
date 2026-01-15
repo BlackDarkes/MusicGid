@@ -189,6 +189,7 @@ model InstrumentType {
 enum UserRole {
   ADMIN
   USER
+  SELLER
 
   @@map("user_role")
 }

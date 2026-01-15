@@ -15,6 +15,7 @@ import { Request, Response } from "express";
 import { Auth } from "./common/decorators/auth.decorator.js";
 import { Authorize } from "./common/decorators/authorize.decorator.js";
 import { User } from "@prisma/client";
+import { Roles } from "./common/decorators/role.decorator.js";
 
 @Controller("auth")
 export class AuthController {
@@ -46,6 +47,7 @@ export class AuthController {
 		};
 	}
 
+	@Roles("USER")
 	@Auth()
 	@Post("logout")
 	@HttpCode(200)
@@ -57,6 +59,7 @@ export class AuthController {
 		};
 	}
 
+	@Roles("USER")
 	@Auth()
 	@Post("refresh")
 	@HttpCode(200)
@@ -74,6 +77,7 @@ export class AuthController {
 		};
 	}
 
+	@Roles("USER")
 	@Auth()
 	@Get("@me")
 	@HttpCode(200)

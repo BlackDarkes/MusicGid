@@ -12,7 +12,7 @@ import { LoginDto } from "./common/dto/login.dto.js";
 import { Request, Response } from "express";
 import { isDev } from "../../utils/is-dev.utils.js";
 import { IPayload } from "../../modules/auth/types/payload.interface.js";
-import { TypeUserRole } from "../../types/userRole.type.js";
+import { TypeUserRole } from "./types/userRole.type.js";
 
 @Injectable()
 export class AuthService {
