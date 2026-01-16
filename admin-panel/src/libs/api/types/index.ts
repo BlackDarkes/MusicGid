@@ -32,12 +32,6 @@ interface ILoginRequest {
   password: string;
 }
 
-interface IRegisterRequest {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-}
 
 interface IAuthResponse {
   message: string;
@@ -50,6 +44,5 @@ export type {
   TypeUserRole,
   IUser,
   ILoginRequest,
-  IRegisterRequest,
   IAuthResponse,
 };

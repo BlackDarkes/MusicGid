@@ -11,7 +11,6 @@ interface IVitestConfigExport extends UserConfig {
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }): IVitestConfigExport => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
@@ -28,6 +27,13 @@ export default defineConfig(({ mode }): IVitestConfigExport => {
       open: true,
       hmr: true,
       cors: true,
+      proxy: {
+        "/api": {
+          target: env.VITE_API_URL,
+          changeOrigin: true,
+          rewrite: ({ replace }) => replace(/^\/api/, "")
+        }
+      },
     },
     preview: { port: 8080 },
     resolve: {

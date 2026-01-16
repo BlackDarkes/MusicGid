@@ -2,7 +2,7 @@ import { API_ENDPOINTS } from "../config/endpoints";
 import { createAuthClient } from "./auth";
 import { createBaseClient } from "./base";
 
-export const createApiClient = () => {
+const createApiClient = () => {
   const baseClient = createBaseClient();
 
   return {
@@ -49,5 +49,5 @@ export const createApiClient = () => {
   };
 };
 
-export type ApiClient = ReturnType<typeof createApiClient>;
-export { createAuthClient, createBaseClient };
+export type TypeApiClient = ReturnType<typeof createApiClient>;
+export { createApiClient, createAuthClient, createBaseClient };

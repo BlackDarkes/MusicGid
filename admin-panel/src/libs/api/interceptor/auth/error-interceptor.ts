@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AxiosError, AxiosInstance, AxiosResponse } from "axios";
+import type { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 
 export const setupErrorInterceptor = (client: AxiosInstance) => {
   client.interceptors.response.use(
@@ -11,7 +11,7 @@ export const setupErrorInterceptor = (client: AxiosInstance) => {
 
         switch (status) {
           case 400: {
-            console.log("Bad request: ", data.message || data);
+            console.log("Bad Request: ", data.message || data);
             break;
           }
           case 401: {
@@ -19,11 +19,11 @@ export const setupErrorInterceptor = (client: AxiosInstance) => {
             break;
           }
           case 403: {
-            console.log("Forbiden: You don't have permission");
+            console.log("Forbid: You don't have permission");
             break;
           }
           case 404: {
-            console.log("Not fount: ", error.config?.url);
+            console.log("Page not found: ", error.config?.url);
             break;
           }
           case 500: {
@@ -38,9 +38,9 @@ export const setupErrorInterceptor = (client: AxiosInstance) => {
           }
         }
       } else if (error.request) {
-        console.error("No response relived: ", error.request);
+        console.log("No response relived");
       } else {
-        console.error("Request setup error: ", error.message);
+        console.log("Request setup error: ", error.message);
       }
 
       return Promise.reject(error);
