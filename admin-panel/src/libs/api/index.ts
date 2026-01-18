@@ -1,6 +1,6 @@
 export { API_CONFIG } from "./config/constants";
 export { API_ENDPOINTS } from "./config/endpoints";
-export { createApiClient, createAuthClient, type TypeApiClient } from "./clients";
+export { apiClient } from "./clients";
 
 export type {
   IApiResponse,

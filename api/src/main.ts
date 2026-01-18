@@ -19,12 +19,18 @@ async function bootstrap() {
 		}),
 	);
 
+	console.log(`http://${configService.getOrThrow<string>("HOST")}:${configService.getOrThrow<string>("PORT_ADMIN_PANEL")}`);
+	console.log(`http://localhost:${configService.getOrThrow<string>("PORT_ADMIN_PANEL")}`);
+
 	app.enableCors({
 		origin: [
 			"http://localhost:3000",
 			`http://${configService.getOrThrow<string>("HOST")}:${configService.getOrThrow<string>("PORT_CLIENT")}`,
-			`http://${configService.getOrThrow<string>("HOST")}:${configService.getOrThrow<string>("PORT_ADMIN_PANEL")}`,
+			`http://localhost:${configService.getOrThrow<string>("PORT_ADMIN_PANEL")}`,
+			"http://localhost:8080",
 		],
+		credentials: true,
+		exposedHeaders: ["set-cookie"],
 	});
 
 	await app.listen(

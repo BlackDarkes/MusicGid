@@ -63,19 +63,6 @@ export class AuthService {
 		return user;
 	}
 
-	// async loginAdmin(res: Response, dto: LoginDto) {
-	// 	const { email, password } = dto;
-	// 	const admin = await this.usersService.getUserByEmail(email);
-	// 	const isAdmin = admin?.role;
-
-	// 	if (!admin || !isAdmin || !(await compare(password, admin.password))) {
-	// 		throw new UnauthorizedException("Таких данных нет в базе данных!");
-	// 	}
-
-	// 	await this.auth(res, admin.id, email);
-	// 	return admin;
-	// }
-
 	async logout(res: Response) {
 		return this.clearTokens(res);
 	}
@@ -133,10 +120,10 @@ export class AuthService {
 	private setCookie(res: Response, name: string, value: string, expires: Date) {
 		res.cookie(name, value, {
 			httpOnly: true,
-			secure: !isDev(this.configService),
+			secure: false,
 			expires,
-			domain: "",
-			sameSite: !isDev(this.configService) ? "strict" : "lax",
+			sameSite: "lax",
+			path: "/",
 		});
 	}
 

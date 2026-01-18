@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Body, Controller, HttpCode, Post, Req, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Post, Req, Res } from "@nestjs/common";
 import { AdminService } from "./admin.service.js";
 import { Request, Response } from "express";
 import { LoginDto } from "../auth/common/dto/login.dto.js";
 import { AuthService } from "../auth/auth.service.js";
 import { Auth } from "../auth/common/decorators/auth.decorator.js";
 import { Roles } from "../auth/common/decorators/role.decorator.js";
+import { Authorize } from "../auth/common/decorators/authorize.decorator.js";
+import { User } from "@prisma/client";
 
 @Controller("admin")
 export class AdminController {
@@ -55,5 +57,15 @@ export class AdminController {
     return {
       message: "Вы успешно вышли из аккаунта!"
     }
+  }
+
+  @Auth()
+  @Roles("ADMIN")
+  @Get("me")
+  @HttpCode(200)
+  async me(@Authorize() admin: User) {
+    const { password: _, ...otherAdminData } = admin;
+
+    return otherAdminData;
   }
 }

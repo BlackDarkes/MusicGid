@@ -1,0 +1,1 @@
+export type { TypeUserRole } from "./types/userRoles.type";

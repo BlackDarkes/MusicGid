@@ -1,19 +1,15 @@
+// libs/api/index.ts
 import { API_ENDPOINTS } from "../config/endpoints";
-import { createAuthClient } from "./auth";
-import { createBaseClient } from "./baseClient";
+import { baseClient } from "./baseClient";
 
-const createApiClient = () => {
-  const baseClient = createBaseClient();
-
-  return {
-    auth: createAuthClient(),
-
-    products: {
-      all: baseClient.get(API_ENDPOINTS.products.all),
-    }
-  };
+export const apiClient = {
+  auth: {
+    login: (data: { email: string; password: string }) => baseClient.post(API_ENDPOINTS.auth.login, data),
+    logout: () => baseClient.post(API_ENDPOINTS.auth.logout),
+    refresh: () => baseClient.post(API_ENDPOINTS.auth.refresh),
+    me: () => baseClient.get(API_ENDPOINTS.auth.me),
+  },
+  products: {
+    all: () => baseClient.get(API_ENDPOINTS.products.all),
+  }
 };
-
-
-export type TypeApiClient = ReturnType<typeof createApiClient>;
-export { createApiClient, createAuthClient, createBaseClient };

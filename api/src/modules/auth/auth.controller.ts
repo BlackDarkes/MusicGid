@@ -79,7 +79,7 @@ export class AuthController {
 
 	@Roles("USER")
 	@Auth()
-	@Get("@me")
+	@Get("me")
 	@HttpCode(200)
 	async me(@Authorize() user: User) {
 		const { password: _, ...otherUserData } = user!;

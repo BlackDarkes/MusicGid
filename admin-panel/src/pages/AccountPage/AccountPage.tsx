@@ -1,3 +1,4 @@
+import { LogoutButton } from "@/features/login";
 import { Button } from "@/shared/ui";
 import { useEffect } from "react";
 
@@ -24,6 +25,8 @@ export const AccountPage = () => {
       <Button onClick={handleTheme} variant={"outline"}>
         Сменить тему
       </Button>
+
+      <LogoutButton />
     </>
   );
 }

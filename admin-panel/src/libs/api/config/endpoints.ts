@@ -1,8 +1,9 @@
 export const API_ENDPOINTS = {
   auth: {
-    login: "/auth/login",
-    logout: "/auth/logout",
-    refresh: "/auth/refresh",
+    login: "/admin/login",
+    logout: "/admin/logout",
+    refresh: "/admin/refresh",
+    me: "/admin/me",
   },
   users: {
     all: "/users",
