@@ -1,7 +1,6 @@
 
 import type { TypeAuthSchema } from "@/entities/admin";
 import {  apiClient, type IUser } from "@/libs/api";
-import { redirect } from "react-router";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
@@ -14,6 +13,7 @@ interface IAuthStore {
   login: (data: TypeAuthSchema) => Promise<void>;
   logout: () => Promise<void>;
 }
+
 
 export const useAuthStore = create<IAuthStore>()(
   devtools(
@@ -48,7 +48,6 @@ export const useAuthStore = create<IAuthStore>()(
         try {
           const res = await apiClient.auth.logout();
           set({ user: null, isAuth: false, message: res.data?.message });
-          redirect("/admin/login");
         } catch(error) {
           console.log("Error logout: ", error)
         }

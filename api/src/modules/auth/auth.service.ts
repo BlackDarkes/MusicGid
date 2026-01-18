@@ -120,9 +120,9 @@ export class AuthService {
 	private setCookie(res: Response, name: string, value: string, expires: Date) {
 		res.cookie(name, value, {
 			httpOnly: true,
-			secure: false,
+			secure: !isDev(this.configService),
 			expires,
-			sameSite: "lax",
+			sameSite: !isDev(this.configService) ? "none" : "lax",
 			path: "/",
 		});
 	}
