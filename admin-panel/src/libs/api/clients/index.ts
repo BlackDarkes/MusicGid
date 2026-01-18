@@ -1,4 +1,3 @@
-// libs/api/index.ts
 import { API_ENDPOINTS } from "../config/endpoints";
 import { baseClient } from "./baseClient";
 

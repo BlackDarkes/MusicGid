@@ -60,7 +60,6 @@ export class AuthController {
 	}
 
 	@Roles("USER")
-	@Auth()
 	@Post("refresh")
 	@HttpCode(200)
 	async refresh(

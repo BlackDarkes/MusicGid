@@ -44,7 +44,6 @@ export const setupAuthInterceptor = (client: AxiosInstance) => {
       if (
         error.response?.status  === 401
         && !originRequest.url?.includes("/admin/refresh")
-        && !originRequest.url?.includes("/admin/me")
         && !originRequest._retry
       ) {
         if (isRefreshing) {
@@ -66,10 +65,11 @@ export const setupAuthInterceptor = (client: AxiosInstance) => {
         try {
           await client.post("/admin/refresh");
           processQueue(null, null);
+          return client(originRequest);
         } catch(refreshError) {
           processQueue(refreshError as AxiosError, null);
 
-          if (typeof window !== "undefined") {
+          if (typeof window !== "undefined" && !originRequest.url?.includes("/admin/me")) {
             window.location.href = "/admin/login";
           }
 

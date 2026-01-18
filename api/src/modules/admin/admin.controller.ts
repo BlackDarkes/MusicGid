@@ -32,7 +32,6 @@ export class AdminController {
     }
   }
 
-  @Auth()
   @Roles("ADMIN")
   @Post("refresh")
   @HttpCode(200)
