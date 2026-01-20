@@ -6,7 +6,7 @@ export const BaseLayout = () => {
     <>
       <Header />
       
-      <main>
+      <main className="mx-auto pt-15 w-[min(100%-40px,1440px)]">
         <Outlet />
       </main>
     </>

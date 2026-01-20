@@ -1,7 +1,9 @@
 export const UsersPage = () => {
   return (
     <>
-      <h1>Users page</h1>
+      <div>
+        <h2>Пользователи</h2>
+      </div>
     </>
   );
 }

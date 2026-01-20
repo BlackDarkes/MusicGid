@@ -8,12 +8,18 @@ export const NAV_ELEMENTS: INavElement[] = [
   },
   {
     id: 2,
+    elem: "Заказы",
+    link: "/admin/orders",
+  },
+  {
+    id: 3,
     elem: "Продукты",
     link: "/admin/products",
   },
   {
-    id: 3,
+    id: 4,
     elem: "Аккаунт",
     link: "/admin/account",
-  }
+  },
+
 ]
