@@ -15,12 +15,9 @@ async function bootstrap() {
 			whitelist: true,
 			forbidNonWhitelisted: true,
 			transform: true,
-			disableErrorMessages: isDev(configService),
+			disableErrorMessages: false,
 		}),
 	);
-
-	console.log(`http://${configService.getOrThrow<string>("HOST")}:${configService.getOrThrow<string>("PORT_ADMIN_PANEL")}`);
-	console.log(`http://localhost:${configService.getOrThrow<string>("PORT_ADMIN_PANEL")}`);
 
 	app.enableCors({
 		origin: [

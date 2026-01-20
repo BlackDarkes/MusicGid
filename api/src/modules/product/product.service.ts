@@ -35,14 +35,15 @@ export class ProductService {
 		if (typeId) where.typeId = typeId;
 		if (isActive !== undefined) where.isActive = isActive;
 
-		if (maxPrice !== undefined || maxPrice !== undefined) {
-			if (maxPrice !== undefined) where.maxPrice = maxPrice;
-			if (minPrice !== undefined) where.minPrice = minPrice;
-		}
+if (minPrice !== undefined || maxPrice !== undefined) {
+    where.price = {};
+    if (minPrice !== undefined) where.price.gte = minPrice;
+    if (maxPrice !== undefined) where.price.lte = maxPrice;
+}
 
 		if (search) {
 			where.name = {
-				container: search,
+				contains: search,
 				mode: "insensitive" as any,
 			};
 		}
@@ -292,16 +293,8 @@ export class ProductService {
 			throw new BadRequestException("Такой бренд уже существует!");
 		}
 
-		const lastBrand = await this.prismaService.brand.findFirst({
-			orderBy: {
-				id: "desc",
-			},
-		});
-		const newBrandId = lastBrand?.id ? lastBrand?.id + 1 : 1;
-
 		return this.prismaService.brand.create({
 			data: {
-				id: newBrandId,
 				name: brandName,
 				image: brandImage,
 			},
@@ -320,16 +313,8 @@ export class ProductService {
 			throw new BadRequestException("Тип инструмента уже существует!");
 		}
 
-		const lastType = await this.prismaService.instrumentType.findFirst({
-			orderBy: {
-				id: "desc",
-			},
-		});
-		const lastId = lastType?.id ? lastType?.id + 1 : 1;
-
 		return this.prismaService.instrumentType.create({
 			data: {
-				id: lastId,
 				type,
 			},
 		});

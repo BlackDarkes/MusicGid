@@ -1,40 +1,48 @@
-import { IsBoolean, IsEmpty, IsNumber, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsOptional, IsNumber, IsString, MinLength } from "class-validator";
+import { Type } from "class-transformer";
 
 export class FilterDto {
-  @IsEmpty()
+  @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   categoryId?: number;
 
-  @IsEmpty()
+  @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   brandId?: number;
 
-  @IsEmpty()
+  @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   typeId?: number;
 
-  @IsEmpty()
+  @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   maxPrice?: number;
 
-  @IsEmpty()
+  @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   minPrice?: number;
 
-  @IsEmpty()
+  @IsOptional()
   @IsString()
   @MinLength(3)
   search?: string;
 
-  @IsEmpty()
+  @IsOptional()
   @IsBoolean()
   isActive?: boolean;
 
-  @IsEmpty()
+  @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   page?: number;
 
-  @IsEmpty()
+  @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   limit?: number;
 }

@@ -166,7 +166,7 @@ model Category {
 }
 
 model Brand {
-  id Int @id
+  id Int @id @default(autoincrement())
 
   name String
   image String
@@ -177,7 +177,7 @@ model Brand {
 }
 
 model InstrumentType {
-  id Int @id
+  id Int @id @default(autoincrement())
 
   type String
 

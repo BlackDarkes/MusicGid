@@ -16,13 +16,13 @@ import { CategoryType } from "./types/index.js";
 export class ProductController {
 	constructor(private readonly productService: ProductService) {}
 
-	@Get("")
+	@Post("/")
 	@HttpCode(200)
 	async getAll(@Body() filters: FilterDto) {
 		const products = await this.productService.getAllProducts(filters);
 
 		return {
-			products,
+			...products,
 		};
 	}
 
@@ -36,7 +36,7 @@ export class ProductController {
 		};
 	}
 
-	@Post("")
+	@Post("/create")
 	@HttpCode(201)
 	async create(@Body() productData: CreateDto) {
 		await this.productService.create(productData);

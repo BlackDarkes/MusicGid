@@ -47,8 +47,8 @@ export class AuthController {
 		};
 	}
 
-	@Roles("USER")
 	@Auth()
+	@Roles("USER")
 	@Post("logout")
 	@HttpCode(200)
 	async logout(@Res({ passthrough: true }) res: Response) {
@@ -76,8 +76,8 @@ export class AuthController {
 		};
 	}
 
-	@Roles("USER")
 	@Auth()
+	@Roles("USER")
 	@Get("me")
 	@HttpCode(200)
 	async me(@Authorize() user: User) {
