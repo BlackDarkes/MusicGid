@@ -10,14 +10,16 @@ import { OrderItemModule } from "./modules/order-item/order-item.module.js";
 import { ProductModule } from "./modules/product/product.module.js";
 import { RedisModule } from "./redis/redis.module.js";
 import { SupportChatModule } from "./modules/support-chat/support-chat.module.js";
-import { AdminModule } from './modules/admin/admin.module.js';
+import { AdminModule } from "./modules/admin/admin.module.js";
+import { CategoryModule } from "./modules/category/category.module.js";
+import { BrandModule } from "./modules/brand/brand.module.js";
+import { InstrumentTypeModule } from "./modules/instrument-type/instrument-type.module.js";
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
-			envFilePath: process.env.NODE_ENV === "production" 
-				? ".env.production" 
-				: ".env",
+			envFilePath:
+				process.env.NODE_ENV === "production" ? ".env.production" : ".env",
 			isGlobal: true,
 		}),
 		RedisModule,
@@ -31,6 +33,9 @@ import { AdminModule } from './modules/admin/admin.module.js';
 		ProductModule,
 		SupportChatModule,
 		AdminModule,
+		CategoryModule,
+		BrandModule,
+		InstrumentTypeModule,
 	],
 })
 export class AppModule {}

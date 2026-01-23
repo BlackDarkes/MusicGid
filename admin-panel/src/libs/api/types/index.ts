@@ -38,6 +38,18 @@ interface IAuthResponse {
   user: IUser;
 }
 
+interface IFilerProduct {
+  categoryId?: number;
+  brandId?: number;
+  typeId?: number;
+  maxPrice?: number;
+  minPrice?: number;
+  search?: string;
+  isActive?: boolean;
+  page?: number;
+  limit?: number;
+}
+
 export type {
   IApiResponse,
   IApiError,
@@ -45,4 +57,5 @@ export type {
   IUser,
   ILoginRequest,
   IAuthResponse,
+  IFilerProduct
 };

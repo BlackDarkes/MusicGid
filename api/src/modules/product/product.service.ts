@@ -35,11 +35,11 @@ export class ProductService {
 		if (typeId) where.typeId = typeId;
 		if (isActive !== undefined) where.isActive = isActive;
 
-if (minPrice !== undefined || maxPrice !== undefined) {
-    where.price = {};
-    if (minPrice !== undefined) where.price.gte = minPrice;
-    if (maxPrice !== undefined) where.price.lte = maxPrice;
-}
+		if (minPrice !== undefined || maxPrice !== undefined) {
+				where.price = {};
+				if (minPrice !== undefined) where.price.gte = minPrice;
+				if (maxPrice !== undefined) where.price.lte = maxPrice;
+		}
 
 		if (search) {
 			where.name = {
@@ -112,6 +112,63 @@ if (minPrice !== undefined || maxPrice !== undefined) {
 		}
 
 		return product;
+	}
+
+		async getProductByCategory(categoryName: CategoryType) {
+		const category = await this.prismaService.category.findFirst({
+			where: {
+				name: categoryName as CategoryEnum,
+			},
+		});
+
+		if (!category) {
+			throw new NotFoundException(`Category "${categoryName}" not found!`);
+		}
+
+		return this.prismaService.product.findMany({
+			where: {
+				categoryId: category.id,
+				isActive: true,
+			},
+			include: {
+				brands: true,
+				categories: true,
+				instrumentTypes: true,
+			},
+			orderBy: {
+				createdAt: "desc",
+			},
+		});
+	}
+
+	async getProductByBrand(brandName: string) {
+		const brand = await this.prismaService.brand.findFirst({
+			where: {
+				name: {
+					contains: brandName,
+					mode: "insensitive" as any,
+				},
+			},
+		});
+
+		if (!brand) {
+			throw new NotFoundException(`Brand "${brandName}" not found!`);
+		}
+
+		return this.prismaService.product.findMany({
+			where: {
+				brandId: brand.id,
+				isActive: true,
+			},
+			include: {
+				brands: true,
+				categories: true,
+				instrumentTypes: true,
+			},
+			orderBy: {
+				createdAt: "desc",
+			},
+		});
 	}
 
 	async create(dto: CreateDto) {
@@ -282,98 +339,9 @@ if (minPrice !== undefined || maxPrice !== undefined) {
 		});
 	}
 
-	async createBrand(brandName: string, brandImage: string) {
-		const findBrand = await this.prismaService.brand.findFirst({
-			where: {
-				name: brandName,
-			},
-		});
-
-		if (findBrand) {
-			throw new BadRequestException("Такой бренд уже существует!");
-		}
-
-		return this.prismaService.brand.create({
-			data: {
-				name: brandName,
-				image: brandImage,
-			},
-		});
-	}
-
-	async createInstrumentType(type: string) {
-		const findInstrumentType =
-			await this.prismaService.instrumentType.findFirst({
-				where: {
-					type,
-				},
-			});
-
-		if (findInstrumentType) {
-			throw new BadRequestException("Тип инструмента уже существует!");
-		}
-
-		return this.prismaService.instrumentType.create({
-			data: {
-				type,
-			},
-		});
-	}
-
-	async getProductByCategory(categoryName: CategoryType) {
-		const category = await this.prismaService.category.findFirst({
-			where: {
-				name: categoryName as CategoryEnum,
-			},
-		});
-
-		if (!category) {
-			throw new NotFoundException(`Category "${categoryName}" not found!`);
-		}
-
-		return this.prismaService.product.findMany({
-			where: {
-				categoryId: category.id,
-				isActive: true,
-			},
-			include: {
-				brands: true,
-				categories: true,
-				instrumentTypes: true,
-			},
-			orderBy: {
-				createdAt: "desc",
-			},
-		});
-	}
-
-	async getProductByBrand(brandName: string) {
-		const brand = await this.prismaService.brand.findFirst({
-			where: {
-				name: {
-					contains: brandName,
-					mode: "insensitive" as any,
-				},
-			},
-		});
-
-		if (!brand) {
-			throw new NotFoundException(`Brand "${brandName}" not found!`);
-		}
-
-		return this.prismaService.product.findMany({
-			where: {
-				brandId: brand.id,
-				isActive: true,
-			},
-			include: {
-				brands: true,
-				categories: true,
-				instrumentTypes: true,
-			},
-			orderBy: {
-				createdAt: "desc",
-			},
+	async delete(productId: string) {
+		return await this.prismaService.product.delete({
+			where: { id: productId },
 		});
 	}
 }

@@ -1,4 +1,5 @@
 import { API_ENDPOINTS } from "../config/endpoints";
+import type { IFilerProduct } from "../types";
 import { baseClient } from "./baseClient";
 
 export const apiClient = {
@@ -9,6 +10,6 @@ export const apiClient = {
     me: () => baseClient.get(API_ENDPOINTS.auth.me),
   },
   products: {
-    all: () => baseClient.get(API_ENDPOINTS.products.all),
+    getAll: (filters: IFilerProduct) => baseClient.post(API_ENDPOINTS.products.getAll, filters),
   }
 };

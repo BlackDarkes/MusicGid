@@ -16,7 +16,7 @@ import { CommentUpdateDto } from "./common/dto/commentUpdate.dto.js";
 export class CommentController {
 	constructor(private readonly commentService: CommentService) {}
 
-	@Get("all")
+	@Get("")
 	@HttpCode(200)
 	async getAllComments() {
 		const allComments = await this.commentService.getAllComments();

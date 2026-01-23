@@ -9,11 +9,18 @@ export const API_ENDPOINTS = {
     all: "/users",
   },
   products: {
-    all: "/products",
-    comments: "/products/:id/comments",
+    getAll: "/products",
+    getById: "/products/:id",
+    create: "/products/create",
+    update: "/products/:id",
+  },
+  comments: {
+    all: "/comment",
+    byProduct: "/comment/:id",
+    delete: "/comment/:id",
   },
   categories: {
-    all: "/categories",
+    all: "/product/",
   },
   brands: {
     all: "/brands",
