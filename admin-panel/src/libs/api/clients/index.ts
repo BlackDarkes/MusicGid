@@ -1,5 +1,6 @@
+import type { AxiosRequestConfig } from "axios";
 import { API_ENDPOINTS } from "../config/endpoints";
-import type { IFilerProduct } from "../types";
+import type { IFilterProduct, IProductData } from "../types";
 import { baseClient } from "./baseClient";
 
 export const apiClient = {
@@ -10,6 +11,12 @@ export const apiClient = {
     me: () => baseClient.get(API_ENDPOINTS.auth.me),
   },
   products: {
-    getAll: (filters: IFilerProduct) => baseClient.post(API_ENDPOINTS.products.getAll, filters),
+    getAll: (filters: IFilterProduct, config?: AxiosRequestConfig) => baseClient.post(API_ENDPOINTS.products.getAll, filters, config),
+    getById: (id: number, config?: AxiosRequestConfig) => baseClient.get(API_ENDPOINTS.products.getById.replace(":id", id.toString()), config),
+    getByCategory: (category: string, config?: AxiosRequestConfig) => baseClient.get(API_ENDPOINTS.products.getByCategory.replace(":category", category), config),
+    getByBrand: (brand: string, config?: AxiosRequestConfig) => baseClient.get(API_ENDPOINTS.products.getByBrand.replace(":brand", brand), config),
+    create: (data: IProductData) => baseClient.post(API_ENDPOINTS.products.create, data),
+    update: (id: string, data: IProductData, config?: AxiosRequestConfig) => baseClient.put(API_ENDPOINTS.products.update.replace(":id", id), data, config),
+    delete: (id: string, config?: AxiosRequestConfig) => baseClient.delete(API_ENDPOINTS.products.delete.replace(":id", id), config),
   }
 };

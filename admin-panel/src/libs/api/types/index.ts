@@ -1,3 +1,5 @@
+import type { IProductData } from "./product/productData.interface";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface IApiResponse<T = any> {
   data?: T;
@@ -38,7 +40,7 @@ interface IAuthResponse {
   user: IUser;
 }
 
-interface IFilerProduct {
+interface IFilterProduct {
   categoryId?: number;
   brandId?: number;
   typeId?: number;
@@ -50,6 +52,10 @@ interface IFilerProduct {
   limit?: number;
 }
 
+interface IMessageResponse {
+  message: string;
+}
+
 export type {
   IApiResponse,
   IApiError,
@@ -57,5 +63,7 @@ export type {
   IUser,
   ILoginRequest,
   IAuthResponse,
-  IFilerProduct
+  IFilterProduct,
+  IProductData,
+  IMessageResponse
 };

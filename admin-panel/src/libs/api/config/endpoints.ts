@@ -31,6 +31,13 @@ export const API_ENDPOINTS = {
     update: "/category/:id",
     delete: "/category/:id",
   },
+  instrumentType: {
+    getAll: "/instrument-type",
+    getById: "/instrument-type/:id",
+    create: "/instrument-type",
+    update: "/instrument-type/:id",
+    delete: "/instrument-type/:id",
+  },
   comments: {
     all: "/comment",
     byProduct: "/comment/:id",
