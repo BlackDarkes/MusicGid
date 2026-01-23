@@ -10,9 +10,17 @@ export class InstrumentTypeService {
 	}
 
 	async getInstrumentTypeById(instrumentTypeId: number) {
-		return this.prismaService.instrumentType.findUnique({
-			where: { id: instrumentTypeId },
-		});
+    if (!instrumentTypeId || typeof instrumentTypeId !== "number") {
+      throw new BadRequestException("Некорректный id типа инструмента!");
+    }
+
+    const instrumentType = await this.getById(instrumentTypeId);
+
+    if (!instrumentType) {
+      throw new BadRequestException("Такой тип инструмента не существует!");
+    }
+
+		return instrumentType;
 	}
 
 	async getInstrumentTypeByName(type: string) {
@@ -36,21 +44,31 @@ export class InstrumentTypeService {
       throw new BadRequestException("Такой тип инструмента уже существует!");
     }
 
-		return this.prismaService.instrumentType.update({
-			where: { id: instrumentTypeId },
-			data: { type },
-		});
-	}
-
-	async delete(instrumentTypeId: number) {
-    const instrumentType = await this.getInstrumentTypeById(instrumentTypeId);
-
-    if (!instrumentType) {
+    if (!instrumentType ||  instrumentTypeId !== instrumentType.id) {
       throw new BadRequestException("Такой тип инструмента не существует!");
     }
 
-		return this.prismaService.instrumentType.delete({
-			where: { id: instrumentTypeId },
-		});
+		try {
+      return this.prismaService.instrumentType.update({
+        where: { id: instrumentTypeId },
+        data: { type },
+      });
+    } catch {
+      throw new BadRequestException("Такой тип инструмента не существует!");
+    }
 	}
+
+	async delete(instrumentTypeId: number) {
+    try {
+      return this.prismaService.instrumentType.delete({
+			  where: { id: instrumentTypeId },
+		  });
+    } catch {
+      throw new BadRequestException("Такой тип инструмента не существует!");
+    }
+	}
+
+  private async getById(id: number) {
+    return this.prismaService.instrumentType.findUnique({ where: { id } });
+  }
 }

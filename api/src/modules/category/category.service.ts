@@ -12,9 +12,17 @@ export class CategoryService {
 	}
 
 	async getCategoryById(categoryId: number) {
-		return this.prismaService.category.findUnique({
-			where: { id: categoryId },
-		});
+    if (!categoryId || typeof categoryId !== "number") {
+      throw new BadRequestException("Некорректный id категории!");
+    }
+
+    const category = await this.getById(categoryId);
+
+    if (!category) {
+      throw new BadRequestException("Такой категории не существует!");
+    }
+
+		return category;
 	}
 
   async getCategoryByName(name: CategoryEnum) {
@@ -44,19 +52,25 @@ export class CategoryService {
       throw new BadRequestException("Такая категория уже существует!");
     }
 
-		return this.prismaService.category.update({
-			where: { id: categoryId },
-			data: { name, image },
-		});
+		try {
+      return this.prismaService.category.update({
+        where: { id: categoryId },
+        data: { name, image },
+      });
+    } catch {
+      throw new BadRequestException("Такая категория не существует!");
+    }
 	}
 
 	async deleteCategory(categoryId: number) {
-    const brand = await this.getCategoryById(categoryId);
-
-    if (!brand) {
+    try {
+      return this.prismaService.category.delete({ where: { id: categoryId } });
+    } catch {
       throw new BadRequestException("Такая категория не существует!");
     }
-
-		return this.prismaService.category.delete({ where: { id: categoryId } });
 	}
+
+  private async getById(id: number) {
+    return this.prismaService.category.findUnique({ where: { id } });
+  }
 }

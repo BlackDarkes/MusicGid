@@ -21,9 +21,9 @@ export class BrandController {
 		return this.brandService.getAllBrands();
 	}
 
-	@Get(":brandId")
+	@Get(":id")
 	@HttpCode(200)
-	async getBrandById(@Param("brandId") brandId: number) {
+	async getBrandById(@Param("id") brandId: number) {
 		return this.brandService.getBrandById(brandId);
 	}
 
@@ -37,10 +37,10 @@ export class BrandController {
 		};
 	}
 
-	@Patch(":brandId")
+	@Patch(":id")
 	@HttpCode(200)
 	async updateBrand(
-		@Param("brandId") brandId: number,
+		@Param("id") brandId: number,
 		@Body() data: CreateBrandDto,
 	) {
 		await this.brandService.update(brandId, data);
@@ -50,9 +50,9 @@ export class BrandController {
 		};
 	}
 
-	@Delete(":brandId")
+	@Delete(":id")
 	@HttpCode(200)
-	async delete(@Param("brandId") brandId: number) {
+	async delete(@Param("id") brandId: number) {
 		await this.brandService.delete(brandId);
 
 		return {
