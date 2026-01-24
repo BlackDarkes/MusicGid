@@ -44,6 +44,7 @@ export const setupAuthInterceptor = (client: AxiosInstance) => {
       if (
         error.response?.status  === 401
         && !originRequest.url?.includes("/admin/refresh")
+        && !originRequest.url?.includes("/admin/login")
         && !originRequest._retry
       ) {
         if (isRefreshing) {

@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { TypeAuthSchema } from "@/entities/admin";
-import { apiClient, type IUser } from "@/libs/api";
+import { adminApi } from "@/entities/admin/api/adminApi";
+import type { IAdmin } from "@/entities/admin/model/admin.interface";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
 interface IAuthStore {
-  user: IUser | null;
+  user: IAdmin | null;
   isAuth: boolean;
   isLoading: boolean;
   error: string | null;
@@ -22,36 +24,41 @@ export const useAuthStore = create<IAuthStore>()(
     isLoading: false,
     error: null,
 
+    clearError: () => set({ error: null }),
+
     fetchUser: async () => {
+      set({ isLoading: true });
       try {
-        set({ isLoading: true });
-        const res = await apiClient.auth.me();
-        set({ user: res.data, isAuth: true });
-        return true;
+        const user = await adminApi.me();
+        set({ user, isAuth: true, error: null });
       } catch {
         set({ user: null, isAuth: false });
-        return false;
       } finally {
         set({ isLoading: false });
       }
     },
     login: async (data: TypeAuthSchema) => {
+      set({ isLoading: true });
       try {
-        set({ isLoading: true });
-        const res = await apiClient.auth.login(data);
-        set({ user: res.data?.user, isAuth: true, error: res.data?.message });
-      } catch (error) {
-        console.log("Ошибка авторизации: ", error);
+        const res = await adminApi.login(data);
+        set({
+          user: res.admin,
+          isAuth: true,
+          error: null,
+        });
+        return res.message;
+      } catch (error: any) {
+        const errorMsg = error.response?.data?.message || "Ошибка входа";
+        throw new Error(errorMsg);
       } finally {
         set({ isLoading: false });
       }
     },
     logout: async () => {
       try {
-        const res = await apiClient.auth.logout();
-        set({ user: null, isAuth: false, error: res.data?.message });
-      } catch (error) {
-        console.log("Error logout: ", error);
+        await adminApi.logout();
+      } finally {
+        set({ user: null, isAuth: false, error: null });
       }
     },
   })),

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authSchema } from "@/entities/admin";
 import {
   Button,
@@ -12,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  toast
 } from "@/shared/ui";
 import { useForm } from "react-hook-form";
 import { type infer as zInfer } from "zod";
@@ -20,24 +22,38 @@ import { useAuthStore } from "../../model/useAuthStore";
 import { useNavigate } from "react-router";
 
 export const LoginForm = () => {
+  const { login, isLoading } = useAuthStore();
+  const navigate = useNavigate();
+
   const form = useForm<zInfer<typeof authSchema>>({
     resolver: zodResolver(authSchema),
     defaultValues: { email: "", password: "" },
   });
-  const { login } = useAuthStore();
-  const navigate = useNavigate();
+
 
   const onSubmit = async (values: zInfer<typeof authSchema>) => {
-    await login(values);
+    try {
+      const serverMessage =await login(values);
 
-    form.reset();
+      toast.message("Успешный вход!", {
+        description: typeof serverMessage === "string" 
+          ? serverMessage 
+          : "Вы успешно вошли в админ-панель!",
+      });
 
-    navigate("/admin");
+      navigate("/admin");
+    } catch(error: any) {
+      toast.error("Ошибка входа!", {
+        description: error.message,
+      });
+
+      form.setValue("password", "");
+    }
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-[100vh]">
-      <Card className="w-[350px] mx-auto">
+    <div className="flex justify-center items-center w-full h-screen">
+      <Card className="w-87.5 mx-auto">
         <CardHeader>
           <CardTitle>Вход в админ-панель</CardTitle>
         </CardHeader>
@@ -55,7 +71,12 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormLabel>Почта</FormLabel>
                     <FormControl>
-                      <Input placeholder="Почта" type="email" required {...field} />
+                      <Input
+                        placeholder="Почта"
+                        type="email"
+                        required
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -69,15 +90,27 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormLabel>Пароль</FormLabel>
                     <FormControl>
-                      <Input placeholder="Пароль" type="password" required {...field} />
+                      <Input
+                        placeholder="Пароль"
+                        type="password"
+                        required
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <Button type="submit" className="w-full">
-                Войти
+              <Button type="submit" className="w-full cursor-pointer" disabled={isLoading}>
+                { isLoading ? (
+                  <>
+                    <span className="animate-spin mr-2">🌀</span>
+                    Вход...
+                  </>
+                ) : (
+                  "Вход"
+                ) }
               </Button>
             </form>
           </Form>
