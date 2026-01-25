@@ -9,3 +9,5 @@ export { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "./naviga
 export { toast, Toaster } from "sonner";
 export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "./table";
 export { Skeleton } from "./skeleton";
+export { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationLink } from "./pagination";
+export { CustomPagination } from "./custom-pagination";
