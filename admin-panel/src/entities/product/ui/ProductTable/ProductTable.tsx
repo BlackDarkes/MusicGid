@@ -14,10 +14,10 @@ export const ProductTable = ({ products, renderAction }: IProductTableProps) => 
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Название</TableHead>
-            <TableHead>Цена</TableHead>
-            <TableHead>Количество</TableHead>
-            { renderAction && <TableHead>Действия</TableHead> }
+            <TableHead className="w-[25%]">Название</TableHead>
+            <TableHead className="w-[25%] text-center">Цена</TableHead>
+            <TableHead className="w-[25%] text-center">Количество</TableHead>
+            { renderAction && <TableHead className="w-[25%] text-right">Действия</TableHead> }
           </TableRow>
         </TableHeader>
         
@@ -25,10 +25,10 @@ export const ProductTable = ({ products, renderAction }: IProductTableProps) => 
           { products && products.length ? (
             products.map((product) => (
               <TableRow>
-                <TableCell>{ product.name }</TableCell>
-                <TableCell>{ product.price } ₽</TableCell>
-                <TableCell>{ product.count }</TableCell>
-                { renderAction && <TableCell>{ renderAction(product) }</TableCell> }
+                <TableCell className="mr-auto">{ product.name }</TableCell>
+                <TableCell className="mx-auto">{ product.price } ₽</TableCell>
+                <TableCell className=" mx-auto">{ product.count }</TableCell>
+                { renderAction && <TableCell className="ml-auto">{ renderAction(product) }</TableCell> }
               </TableRow>
           ))
           ) : (

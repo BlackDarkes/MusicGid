@@ -1,4 +1,5 @@
 import {
+  ProductLinks,
   ProductTable,
   ProductTableSkeleton,
   useProducts,
@@ -20,7 +21,12 @@ export const ProductList = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className={isPlaceholderData ? "opacity-50" : ""}>
-        <ProductTable products={data?.products || []} />
+        <ProductTable 
+          products={data?.products || []}
+          renderAction={(product) => (
+            <ProductLinks key={product.id} id={product.id} />
+          )}
+        />
       </div>
 
       <div className="flex justify-between items-center">
