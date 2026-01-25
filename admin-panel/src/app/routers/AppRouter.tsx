@@ -8,8 +8,10 @@ const loginLoader = async () => {
 
   const isOk = await store.fetchUser();
 
+  console.log(isOk)
+  
   if (isOk) return redirect("/admin");
-
+  
   if (store.isAuth) return redirect("/admin");
   
   return null;

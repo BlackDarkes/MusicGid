@@ -1,4 +1,4 @@
-export interface IProduct {
+interface IProduct {
   id: string;
   categoryId: number;
   brandId: number;
@@ -13,3 +13,17 @@ export interface IProduct {
   idActive: number;
   about: string;
 }
+
+interface IPagination {
+  page: number;
+  limit: number;
+  total: number;
+  pages: number;
+}
+
+interface IProductResponse {
+  products: IProduct[],
+  pagination: IPagination;
+}
+
+export type { IProduct, IPagination, IProductResponse };

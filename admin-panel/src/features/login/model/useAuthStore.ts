@@ -18,48 +18,54 @@ interface IAuthStore {
 }
 
 export const useAuthStore = create<IAuthStore>()(
-  devtools((set) => ({
-    user: null,
-    isAuth: false,
-    isLoading: false,
-    error: null,
+  devtools(
+    (set) => ({
+      user: null,
+      isAuth: false,
+      isLoading: false,
+      error: null,
 
-    clearError: () => set({ error: null }),
+      clearError: () => set({ error: null }),
 
-    fetchUser: async () => {
-      set({ isLoading: true });
-      try {
-        const user = await adminApi.me();
-        set({ user, isAuth: true, error: null });
-      } catch {
-        set({ user: null, isAuth: false });
-      } finally {
-        set({ isLoading: false });
-      }
-    },
-    login: async (data: TypeAuthSchema) => {
-      set({ isLoading: true });
-      try {
-        const res = await adminApi.login(data);
-        set({
-          user: res.admin,
-          isAuth: true,
-          error: null,
-        });
-        return res.message;
-      } catch (error: any) {
-        const errorMsg = error.response?.data?.message || "Ошибка входа";
-        throw new Error(errorMsg);
-      } finally {
-        set({ isLoading: false });
-      }
-    },
-    logout: async () => {
-      try {
-        await adminApi.logout();
-      } finally {
-        set({ user: null, isAuth: false, error: null });
-      }
-    },
-  })),
+      fetchUser: async () => {
+        set({ isLoading: true });
+        try {
+          const user = await adminApi.me();
+          set({ user, isAuth: true, error: null });
+          return true;
+        } catch {
+          set({ user: null, isAuth: false });
+          return false;
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+      login: async (data: TypeAuthSchema) => {
+        set({ isLoading: true });
+        try {
+          const res = await adminApi.login(data);
+          set({
+            user: res.admin,
+            isAuth: true,
+            error: null,
+          });
+          return res.message;
+        } catch (error: any) {
+          const errorMsg = error.response?.data?.message || "Ошибка входа";
+          throw new Error(errorMsg);
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+      logout: async () => {
+        try {
+          await adminApi.logout();
+        } finally {
+          set({ user: null, isAuth: false, error: null });
+        }
+      },
+    }),
+
+    { name: "AuthStore" },
+  ),
 );
