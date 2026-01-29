@@ -1,0 +1,1 @@
+export { UpdateFormProduct } from "./ui/UpdateForm/UpdateForm";
