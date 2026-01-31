@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, redirect } from "react-router";
 import { BaseLayout } from "../layouts/BaseLayout";
 import { AccountPage, HomePage, LoginPage, ProductsPage, UsersPage } from "@/pages/index";
 import { useAuthStore } from "@/features/login";
+import { ProductCreatePage } from "@/pages/ProductCreatePage/ProductCreatePage";
 
 const loginLoader = async () => {
   const store = useAuthStore.getState();
@@ -64,7 +65,7 @@ export const AppRouter = createBrowserRouter([
           },
           {
             path: "create",
-            element: <div>ffffff</div>
+            element: <ProductCreatePage />
           },
           {
             path: "edit/:id",

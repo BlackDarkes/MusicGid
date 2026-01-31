@@ -47,3 +47,5 @@ export {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./alert-dialog";
+export { Textarea } from "./textarea";
+export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";

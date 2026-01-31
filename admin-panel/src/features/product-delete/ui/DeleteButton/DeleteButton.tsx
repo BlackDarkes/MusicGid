@@ -57,10 +57,10 @@ export const DeleteButton = ({ id }: IDeleteButtonProps) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Отмена</AlertDialogCancel>
+          <AlertDialogCancel className="cursor-pointer">Отмена</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90 cursor-pointer"
           >Удалить</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

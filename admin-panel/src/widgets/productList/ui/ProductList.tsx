@@ -22,10 +22,14 @@ export const ProductList = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className={isPlaceholderData ? "opacity-50" : ""}>
-        <ProductTable 
+        <ProductTable
           products={data?.products || []}
           renderAction={(product) => (
-            <ProductLinks key={product.id} id={product.id} buttons={<DeleteButton id={product.id} />} />
+            <ProductLinks
+              key={product.id}
+              id={product.id}
+              buttons={<DeleteButton id={product.id} />}
+            />
           )}
         />
       </div>
