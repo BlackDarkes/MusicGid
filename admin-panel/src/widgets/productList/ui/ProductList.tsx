@@ -4,6 +4,7 @@ import {
   ProductTableSkeleton,
   useProducts,
 } from "@/entities/product";
+import { DeleteButton } from "@/features/product-delete";
 import { CustomPagination } from "@/shared/ui";
 import { useState } from "react";
 
@@ -24,7 +25,7 @@ export const ProductList = () => {
         <ProductTable 
           products={data?.products || []}
           renderAction={(product) => (
-            <ProductLinks key={product.id} id={product.id} />
+            <ProductLinks key={product.id} id={product.id} buttons={<DeleteButton id={product.id} />} />
           )}
         />
       </div>

@@ -1,13 +1,14 @@
 import { Link } from "react-router";
-import { Edit, Eye, Trash2 } from "lucide-react";
-import { Button, buttonVariants } from "@/shared/ui/button";
+import { Edit, Eye } from "lucide-react";
+import {  buttonVariants } from "@/shared/ui/button";
 import type { ReactNode } from "react";
 
 interface IProductLinksProps {
-  id: string
+  id: string;
+  buttons?: ReactNode;
 }
   
-export const ProductLinks = ({ id }: IProductLinksProps): ReactNode => {
+export const ProductLinks = ({ id, buttons }: IProductLinksProps): ReactNode => {
   return (
     <>
       <Link
@@ -24,14 +25,7 @@ export const ProductLinks = ({ id }: IProductLinksProps): ReactNode => {
         <Edit className="h-4 w-4" />
       </Link>
 
-      <Button
-        variant={"outline"}
-        size={"icon"}
-        className="text-destructive cursor-pointer"
-        onClick={() => console.log("Удалить продукт: ", id)}
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
+      { buttons }
     </>
   );
 }

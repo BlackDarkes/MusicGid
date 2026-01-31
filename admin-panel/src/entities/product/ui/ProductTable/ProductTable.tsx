@@ -7,8 +7,6 @@ interface IProductTableProps {
 }
   
 export const ProductTable = ({ products, renderAction }: IProductTableProps) => {
-  console.log(products);
-  
   return (
     <div className="rounded-md border">
       <Table>

@@ -23,7 +23,9 @@ export const CustomPagination = ({
   isLoading,
   className,
 }: ICustomPaginationProps) => {
-  if (totalPages <= 1) return null;
+  if (totalPages <= 10) return null;
+
+  console.log(totalPages)
 
   return (
     <Pagination
@@ -50,7 +52,7 @@ export const CustomPagination = ({
           <PaginationNext
             className={`
               ${cn("cursor-pointer")}
-              ${(page >= totalPages || isLoading) && "pointer-events-none opacity-50"}
+              ${(page > totalPages || isLoading) && "pointer-events-none opacity-50"}
             `}
             onClick={() => onPageChange(page + 1)}
           />
