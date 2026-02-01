@@ -22,9 +22,11 @@ import {
   createProductSchema,
   type TypeCreateProductSchema,
 } from "../../model/schema";
-import { productApi } from "@/entities/product/api/productApi";
+import { useCreateProduct } from "../../api/useCreateProduct";
+import { useNavigate } from "react-router";
 
 export const CreateProductForm = () => {
+  const { mutate, isPending } = useCreateProduct();
   const form = useForm<TypeCreateProductSchema>({
     resolver: zodResolver(createProductSchema) as any,
     defaultValues: {
@@ -38,12 +40,13 @@ export const CreateProductForm = () => {
       specifications: [],
     },
   });
+  const navigate = useNavigate();
 
-  const onSubmit = async (values: TypeCreateProductSchema) => {
+  const onSubmit = (values: TypeCreateProductSchema) => {
     try {
       const formData = new FormData();
 
-            Object.entries(values).forEach(([key, value]) => {
+      Object.entries(values).forEach(([key, value]) => {
         if (key === "specifications") {
           formData.append(key, JSON.stringify(value));
         } else if (key === "image" && value instanceof File) {
@@ -53,12 +56,11 @@ export const CreateProductForm = () => {
         }
       });
 
-      console.log(formData.get("image"));
-
-      await productApi.create(formData as any);
+      mutate(formData as any);
 
       toast.success("Товар успешно создан!");
       form.reset();
+      navigate("../");
     } catch (error: any) {
       toast.error("Ошибка при создании", { description: error.message });
     }
@@ -230,9 +232,9 @@ export const CreateProductForm = () => {
         <Button
           type="submit"
           className="w-full"
-          disabled={form.formState.isSubmitting}
+          disabled={isPending}
         >
-          {form.formState.isSubmitting ? "Создание..." : "Создать продукт"}
+          {isPending ? "Создание..." : "Создать продукт"}
         </Button>
       </form>
     </Form>

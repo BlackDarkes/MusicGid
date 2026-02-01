@@ -33,8 +33,10 @@ export const productApi = {
     signal?: AbortSignal,
   ): Promise<IProduct[]> =>
     extractData(apiClient.products.getByBrand(brand, { signal })),
-  create: async (data: IProductData): Promise<IMessageResponse> =>
-    extractData(apiClient.products.create(data, )),
+  create: async (data: IProductData): Promise<IMessageResponse> => {
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    return extractData(apiClient.products.create(data));
+  },
 
   update: async (id: string, data: IProductData) =>
     extractData(apiClient.products.update(id, data)),
