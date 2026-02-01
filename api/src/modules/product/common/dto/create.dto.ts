@@ -1,10 +1,12 @@
 import {
-	IsDecimal,
 	IsInt,
 	IsNotEmpty,
+	IsNumber,
+	IsOptional,
 	IsString,
 	MinLength,
 } from "class-validator";
+import {  Type } from "class-transformer";
 import { CategoryType } from "../../types/index.js";
 
 export class CreateDto {
@@ -18,9 +20,8 @@ export class CreateDto {
 	@MinLength(3)
 	brand: string;
 
-	@IsString()
-	@IsNotEmpty()
-	image: string;
+	@IsOptional()
+	image: any;
 
 	@IsString()
 	@IsNotEmpty()
@@ -32,7 +33,8 @@ export class CreateDto {
 	@MinLength(3)
 	type: string;
 
-	@IsDecimal()
+	@IsNumber()
+	@Type(() => Number)
 	@IsNotEmpty()
 	price: number;
 
@@ -40,6 +42,7 @@ export class CreateDto {
 	specifications: any;
 
 	@IsInt()
+	@Type(() => Number)
 	@IsNotEmpty()
 	count: number;
 

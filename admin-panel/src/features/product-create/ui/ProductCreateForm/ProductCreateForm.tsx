@@ -43,13 +43,17 @@ export const CreateProductForm = () => {
     try {
       const formData = new FormData();
 
-      Object.entries(values).forEach(([key, value]) => {
+            Object.entries(values).forEach(([key, value]) => {
         if (key === "specifications") {
           formData.append(key, JSON.stringify(value));
+        } else if (key === "image" && value instanceof File) {
+          formData.append("image", value);
         } else {
-          formData.append(key, value as any);
+          formData.append(key, String(value));
         }
       });
+
+      console.log(formData.get("image"));
 
       await productApi.create(formData as any);
 
@@ -65,6 +69,7 @@ export const CreateProductForm = () => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4 max-w-2xl p-4"
+        encType="multipart/form-data"
       >
         <div className="grid grid-cols-2 gap-4">
           {/* Category */}
@@ -84,7 +89,7 @@ export const CreateProductForm = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Гитары">Гитары</SelectItem>
+                    <SelectItem value="GUITARS">Гитары</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

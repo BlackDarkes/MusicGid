@@ -34,7 +34,7 @@ export const productApi = {
   ): Promise<IProduct[]> =>
     extractData(apiClient.products.getByBrand(brand, { signal })),
   create: async (data: IProductData): Promise<IMessageResponse> =>
-    extractData(apiClient.products.create(data)),
+    extractData(apiClient.products.create(data, )),
 
   update: async (id: string, data: IProductData) =>
     extractData(apiClient.products.update(id, data)),

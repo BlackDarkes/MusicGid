@@ -171,7 +171,7 @@ export class ProductService {
 		});
 	}
 
-	async create(dto: CreateDto) {
+	async create(dto: CreateDto, fileName: string) {
 		const [category, brand, instrumentType] = await Promise.all([
 			this.prismaService.category.findFirst({
 				where: { name: dto.category as CategoryEnum },
@@ -214,11 +214,15 @@ export class ProductService {
 			throw new BadRequestException("Количество не может быть меньше 0!");
 		}
 
+		if (!fileName) {
+			throw new BadRequestException("Файл не выбран!");
+		}
+
 		return await this.prismaService.product.create({
 			data: {
 				categoryId: category.id,
 				brandId: brand.id,
-				image: dto.image,
+				image: `/uploads/products/${fileName}`,
 				name: dto.name,
 				typeId: instrumentType.id,
 				price: dto.price,

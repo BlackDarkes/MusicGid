@@ -7,11 +7,16 @@ import {
 	Param,
 	Patch,
 	Post,
+	UploadedFile,
+	UseInterceptors,
 } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { ProductService } from "./product.service.js";
 import { FilterDto } from "./common/dto/filter.dto.js";
 import { CreateDto } from "./common/dto/create.dto.js";
 import { CategoryType } from "./types/index.js";
+import { diskStorage } from "multer";
+import { Request } from "express";
 
 @Controller("product")
 export class ProductController {
@@ -59,9 +64,23 @@ export class ProductController {
 	}
 
 	@Post("/create")
+	@UseInterceptors(
+		FileInterceptor("image", {
+			storage: diskStorage({
+				destination: "./public/uploads/products",
+				filename: (_: Request, file: Express.Multer.File, cb) => {
+					const prefix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+					cb(null, `${prefix}-${file.originalname}`);
+				},
+			}),
+		}),
+	)
 	@HttpCode(201)
-	async create(@Body() productData: CreateDto) {
-		await this.productService.create(productData);
+	async create(
+		@Body() productData: CreateDto,
+		@UploadedFile() file: Express.Multer.File,
+	) {
+		await this.productService.create(productData, file.filename);
 
 		return {
 			message: "Продукт создан!",
