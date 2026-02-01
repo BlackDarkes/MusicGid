@@ -8,7 +8,9 @@ const loginLoader = async () => {
   const store = useAuthStore.getState();
 
   const isOk = await store.fetchUser();
-  
+
+  if (store.isAuth) return redirect("/admin");
+
   if (isOk) return redirect("/admin");
   
   if (store.isAuth) return redirect("/admin");

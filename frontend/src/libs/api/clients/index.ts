@@ -49,5 +49,7 @@ const createApiClient = () => {
   };
 };
 
+const apiClient = createApiClient();
+
 export type TypeApiClient = ReturnType<typeof createApiClient>;
-export { createApiClient, createAuthClient, createBaseClient };
+export { createApiClient, apiClient, createAuthClient, createBaseClient };
